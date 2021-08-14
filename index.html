@@ -15,8 +15,8 @@
         <div class="header-left">
           <a href="./"><h1>DISCIPLINE</h1></a>
         </div>
-        <div class="header-right">
-          ola
+        <div class="header-right" id="header_right">
+
         </div>
       </div>
     </section>
@@ -24,35 +24,68 @@
     <section id="login_section" class="login-container">
       <div class="login-form hide" id="login_form">
         <p>You must be a student of Physics Discipline, Khulna University, in order to login in this website.</p>
-        <button type="button" class="mybutton" id="login">Login with Google</button>
+        <button type="button" class="mybutton" id="login_btn">Login with Google</button>
       </div>
-      <div class="signup-form" id="signup_form">
+      <div class="signup-form hide" id="verify_id">
         <p class="signup-text" id="signup_text">
           You're not verified by your batch CR. Please ask your batch CR to add you to the student database.
+          <br>
+          <br>
+          After you're added to the database you'll be able to sign up in this website.
         </p>
+      </div>
+      <div class="signup-form" id="signup_form">
+        <h3>Sign Up</h3>
         <form>
-          <input type="text" placeholder="Enter your name..">
-          <input type="number" placeholder="Enter student ID.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;">
-          <select id="year" name="year">
+          <input type="text" id="name" placeholder="Enter your name.." required>
+          <input type="number" id="id" placeholder="Enter student ID.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
+          <select id="year" required>
             <option value="1st">1st Year</option>
             <option value="2nd">2nd Year</option>
             <option value="3rd">3rd Year</option>
             <option value="4th">4th Year</option>
           </select>
-          <select id="term" name="term">
-            <option value="volvo">11 Term</option>
-            <option value="saab">12 Term</option>
-            <option value="mercedes">21 Term</option>
-            <option value="audi">22 Term</option>
-            <option value="volvo">31 Term</option>
-            <option value="saab">32 Term</option>
-            <option value="mercedes">41 Term</option>
-            <option value="audi">42 Term</option>
+          <select id="term" required>
+            <option value="11">11 Term</option>
+            <option value="12">12 Term</option>
+            <option value="21">21 Term</option>
+            <option value="22">22 Term</option>
+            <option value="31">31 Term</option>
+            <option value="32">32 Term</option>
+            <option value="41">41 Term</option>
+            <option value="42">42 Term</option>
           </select>
+          <input type="number" id="contact" placeholder="Enter contact number.. (01..)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==11) return false;" required>
+          <select id="blood_group" required>
+            <option value="A+">A (+ve)</option>
+            <option value="B+">B (+ve)</option>
+            <option value="AB+">AB (+ve)</option>
+            <option value="O+">O (+ve)</option>
+            <option value="A-">A (-ve)</option>
+            <option value="B-">B (-ve)</option>
+            <option value="AB-">AB (-ve)</option>
+            <option value="O-">O (-ve)</option>
+          </select>
+          <button type="submit" class="signup-btn" id="signup_btn">Sign Up</button>
         </form>
-        <button type="button" class="mybutton" id="login">Login with Google</button>
       </div>
 
+    </section>
+
+    <section id="dashboard_container" class="dash">
+      <div class="dashboard-left">
+        <h3 class="dash-head">Academic</h3>
+        <a class="dash-item" href="#">31 Term Courses</a>
+        <a class="dash-item" href="#">Your Courses</a>
+        <a class="dash-item" href="#">Courses</a>
+        <a class="dash-item" href="#">Courses</a>
+      </div>
+      <div class="dashboard-right">
+        <a class="dash-item" href="#">Courses</a>
+        <a class="dash-item" href="#">Attendance</a>
+        <a class="dash-item" href="#">Courses</a>
+        <a class="dash-item" href="#">Courses</a>
+      </div>
     </section>
 
     <section style="margin-top:30px;">

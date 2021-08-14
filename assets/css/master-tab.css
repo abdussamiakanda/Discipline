@@ -23,7 +23,26 @@
   input[type=number] {
     -moz-appearance: textfield;
   }
-  
+
+  /* UNIVERSAL CSS */
+
+  .mybutton {
+    border: 1px solid black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: 'Chakra Petch';
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+  }
+  .mybutton:hover {
+    background-color: white;
+    color: black;
+  }
+
   /* HEADER */
 
   .header-container {
@@ -48,24 +67,59 @@
   .header h1:hover{
     color: rgba(0,0,0,0.6);
   }
-
-  /* UNIVERSAL CSS */
-
-  .mybutton {
+  .header-right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .search-icon {
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    color: black;
+    margin-right: 10px;
+  }
+  .search-icon:hover {
+    background-color: rgba(0,0,0,0.1);
+    color: black;
+  }
+  .header-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     border: 1px solid black;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-family: 'Chakra Petch';
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    background-color: black;
-    color: white;
+    margin-left: 10px;
     cursor: pointer;
   }
-  .mybutton:hover {
+  .header-image:hover {
+    border: 1px solid rgba(0,0,0,0.2);
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropdown-menu{
+    display: none;
+    position: absolute;
     background-color: white;
+    border-radius: 5px;
+    min-width: 200px;
+    right: 0;
+    border: 1px solid black;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  .dropdown:hover .dropdown-menu{
+    display: block;
+  }
+  .dropdown-menu-item{
+    padding: 10px;
     color: black;
+    border-radius: 5px;
+  }
+  .dropdown-menu-item:hover{
+    background-color: black;
+    color: white;
   }
 
   /* LOGIN */
@@ -107,6 +161,52 @@
   .signup-form input {
     box-sizing:border-box;
     width: 100%;
+    border: none;
+    border-bottom: 2px solid black;
+    padding: 10px 15px;
+    font-size: 20px;
+    margin: 3px 0px;
+  }
+  .signup-form input:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
+  .signup-form input:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0.1);
+  }
+  .signup-form select {
+    box-sizing:border-box;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid black;
+    padding: 10px 15px;
+    font-size: 20px;
+    margin: 3px 0px;
+  }
+  .signup-form select:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
+  .signup-form select:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0.1);
+  }
+  .signup-btn {
+    width: 100%;
+    border: 1px solid black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: 'Chakra Petch';
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .signup-btn:hover {
+    background-color: white;
+    color: black;
   }
 
 
@@ -156,4 +256,8 @@
     from {top: 20px; opacity: 1;}
     to {top: 0; opacity: 0;}
   }
+}
+
+.hide{
+  display: none;
 }
