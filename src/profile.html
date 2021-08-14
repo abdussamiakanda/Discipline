@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/master.css">
+  </head>
+  <body>
+
+    <section>
+      <div class="fixed-header">
+        <div class="header">
+          <div class="logo">
+            <a href="./">FilmFreak</a>
+          </div>
+          <div class="user-head" id="user_head">
+            <a href="./search.html"><i class="search-icon fa fa-search" aria-hidden="true"></i></a>
+            <a href="./messages.html" id="message-icon"></a>
+            <a href="./friends.html" id="friends-icon"></a>
+            <div class="user-name" id="user_name"></div>
+            <div class="dropdown">
+              <div class="user-image-div" id="user_image_div"></div>
+              <div class="dropdown-menu">
+                <a href="./profile.html"><div class="dropdown-menu-item">Profile</div></a>
+                <a href="./friends.html" id="friends"></a>
+                <div class="dropdown-menu-item" id="logout" style="cursor:pointer;">Logout</div>
+              </div>
+            </div>
+          </div>
+          <div class="nonuser-head" id="nonuser_head">
+            <a href="./search.html"><i class="search-icon fa fa-search" aria-hidden="true"></i></a>
+            <button id="login" class="login-btn">Login with Google</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section style="margin-top:20px;">
+      <div class="alerts" id="alerts"></div>
+    </section>
+
+
+    <section class="user-profile">
+      <div class="profile-left">
+        <div class="profile-image" id="profile_image"></div>
+        <div class="profile-name" id="profile_name"></div>
+        <div class="profile-menu" id="profile_menu">
+          <div class="menu-item" id="wishlist_btn" style="cursor:pointer;">Wishlist</div>
+          <div class="menu-item" id="watched_btn" style="cursor:pointer;">Watched</div>
+          <div class="menu-item" id="settings_btn" style="cursor:pointer;">Settings</div>
+          <div class="menu-item" id="profilelogout" style="cursor:pointer;">Logout</div>
+        </div>
+      </div>
+      <div class="profile-right">
+        <div class="wishlist" id="wishlist_div">
+          <div class="section-header">
+            Wishlist
+          </div>
+          <div class="films" id="wish-container"></div>
+        </div>
+
+        <div class="watched" id="watched_div">
+          <div class="section-header">
+            Watched Films
+          </div>
+          <div class="films" id="watched-container"></div>
+        </div>
+
+        <div class="settings" id="settings_div">
+          <div class="section-header">
+            Settings
+          </div>
+          <div class="content-holder">
+            <div class="setting-head">
+              Profile settings
+            </div>
+            <div class="setting-div">
+              Make your profile public
+              <label class="switch">
+                <input type="checkbox" id="toggle">
+                <span class="slider round"></span>
+              </label>
+              <p class="settings-detail">Making your profile public allows your friends to find you and allows you to find your friends on FilmFreak.</p>
+            </div>
+              <div class="setting-head">
+                Profile data
+              </div>
+            <div class="setting-div">
+              Download your data as a .json file <span class="download" id="download_data">Download</span>
+            </div>
+            <div class="setting-div">
+              Delete all your data <span class="delete" id="delete_data">Delete</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <div class="delete-pop-up" id="myModal">
+        <div class="modal-content">
+          Are you sure you want to delete all your film data?
+          <div>
+            <button type="button" class="yes-button" id="yes_button">YES</button>
+            <button type="button" class="no-button" id="no_button">NO</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-analytics.js"></script>
+    <script src="./assets/js/firebase.js"></script>
+    <script src="./assets/js/profile.js"></script>
+  </body>
+</html>

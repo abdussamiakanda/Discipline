@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/master-mobile.css">
+    <link rel="stylesheet" href="./assets/css/master-tab.css">
+    <link rel="stylesheet" href="./assets/css/master-pc.css">
+  </head>
+  <body>
+    <section id="header_section" class="header-container">
+      <div class="header">
+        <div class="header-left">
+          <a href="./"><h1>DISCIPLINE</h1></a>
+        </div>
+        <div class="header-right">
+          ola
+        </div>
+      </div>
+    </section>
+
+    <section id="login_section" class="login-container">
+      <div class="login-form hide" id="login_form">
+        <p>You must be a student of Physics Discipline, Khulna University, in order to login in this website.</p>
+        <button type="button" class="mybutton" id="login">Login with Google</button>
+      </div>
+      <div class="signup-form" id="signup_form">
+        <p class="signup-text" id="signup_text">
+          You're not verified by your batch CR. Please ask your batch CR to add you to the student database.
+        </p>
+        <form>
+          <input type="text" placeholder="Enter your name..">
+          <input type="number" placeholder="Enter student ID.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;">
+          <select id="year" name="year">
+            <option value="1st">1st Year</option>
+            <option value="2nd">2nd Year</option>
+            <option value="3rd">3rd Year</option>
+            <option value="4th">4th Year</option>
+          </select>
+          <select id="term" name="term">
+            <option value="volvo">11 Term</option>
+            <option value="saab">12 Term</option>
+            <option value="mercedes">21 Term</option>
+            <option value="audi">22 Term</option>
+            <option value="volvo">31 Term</option>
+            <option value="saab">32 Term</option>
+            <option value="mercedes">41 Term</option>
+            <option value="audi">42 Term</option>
+          </select>
+        </form>
+        <button type="button" class="mybutton" id="login">Login with Google</button>
+      </div>
+
+    </section>
+
+    <section style="margin-top:30px;">
+      <div class="alerts" id="alerts"></div>
+    </section>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js"></script>
+    <script src="./assets/js/firebase.js"></script>
+    <script src="./assets/js/login.js"></script>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
