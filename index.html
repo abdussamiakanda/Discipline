@@ -13,11 +13,11 @@
     <section id="header_section" class="header-container">
       <div class="header">
         <div class="header-left">
+          <div id="fa_bars"></div>
           <a href="./"><h1>DISCIPLINE</h1></a>
         </div>
-        <div class="header-right" id="header_right">
-
-        </div>
+        <div class="header-middle" id="header_middle"></div>
+        <div class="header-right" id="header_right"></div>
       </div>
     </section>
 
@@ -39,6 +39,7 @@
         <form>
           <input type="text" id="name" placeholder="Enter your name.." required>
           <input type="number" id="id" placeholder="Enter student ID.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
+          <input type="number" id="id" placeholder="Enter your batch.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" required>
           <select id="year" required>
             <option value="1st">1st Year</option>
             <option value="2nd">2nd Year</option>
@@ -73,18 +74,35 @@
     </section>
 
     <section id="dashboard_container" class="dash">
-      <div class="dashboard-left">
+      <div class="dashboard-left" id="dashboard_left">
         <h3 class="dash-head">Academic</h3>
-        <a class="dash-item" href="#">31 Term Courses</a>
-        <a class="dash-item" href="#">Your Courses</a>
-        <a class="dash-item" href="#">Courses</a>
-        <a class="dash-item" href="#">Courses</a>
+        <div onclick="changeURL('dashboard')" class="dash-item">Dashboard</div>
+        <div onclick="changeURL('academic-calendar')" class="dash-item">Academic Calendar</div>
+        <div onclick="changeURL('term-courses')" class="dash-item">31 Term Courses</div>
+        <div onclick="changeURL('my-courses')" class="dash-item">My Courses</div>
+        <div onclick="changeURL('attendance')" class="dash-item">Attendance</div>
+        <div onclick="changeURL('important-links')" class="dash-item">Important Links</div>
+        <h3 class="dash-head">Others</h3>
+        <a class="dash-item" href="#">CR Privileges</a>
+        <a class="dash-item" href="#">Batches</a>
+        <a class="dash-item" href="#">Blood Bank</a>
       </div>
-      <div class="dashboard-right">
-        <a class="dash-item" href="#">Courses</a>
-        <a class="dash-item" href="#">Attendance</a>
-        <a class="dash-item" href="#">Courses</a>
-        <a class="dash-item" href="#">Courses</a>
+      <div class="dashboard-right" id="dashboard_right">
+        <div class="user-dashboard hide" id="dashboard">
+          My Dashboard
+        </div>
+        <div class="academic-calendar hide" id="academic-calendar">
+          Academic Calendar
+        </div>
+        <div class="term-courses hide" id="term-courses">
+          <div class="course-item">
+            <h6>PHY-3105 (Theory)</h6>
+            <h4>Electromagnetic Theory</h4> <hr>
+            Section A: Md. Abdul Malek <br>
+            Section B: Abdullah Al-Mamun
+          </div>
+        </div>
+
       </div>
     </section>
 

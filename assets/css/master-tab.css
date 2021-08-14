@@ -209,6 +209,36 @@
     color: black;
   }
 
+  /* DASHBOARD */
+
+  .dash{
+    display: none;
+    justify-content: center;
+  }
+  .dashboard-left {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard-right {
+    width: 80%;
+    border-left: 1px solid rgba(0,0,0,0.1);
+  }
+  .dash-head {
+    margin: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .dash-item {
+    padding: 8px 12px;
+    color: black;
+    border-radius: 3px;
+  }
+  .dash-item:hover {
+    color: white;
+    background-color: black;
+  }
 
   /* ALERTS */
 

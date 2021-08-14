@@ -2,6 +2,10 @@ var provider = new firebase.auth.GoogleAuthProvider();
 var database = firebase.database();
 var userdata = null;
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const page = urlParams.get('page');
+
 document.getElementById('login_btn').addEventListener('click', GoogleLogin)
 
 function GoogleLogin() {
@@ -97,7 +101,9 @@ function GoogleLogout() {
 
 function showDashboard(user){
   document.getElementById('dashboard_container').style.display = "flex";
+  document.getElementById('fa_bars').innerHTML = `<i class="search-icon fa fa-bars" onclick="hideshowDashMenu()" aria-hidden="true"></i>`;
   showHeader(user);
+  checkPage(user);
 }
 
 function showHeader(user){
@@ -112,6 +118,53 @@ function showHeader(user){
       </div>
     </div>`
 }
+
+function hideshowDashMenu(){
+  var x = document.getElementById('dashboard_left');
+  if(x.style.display === "none"){
+    x.style.display = "flex";
+  } else {
+    x.style.display = "none";
+    document.getElementById('dashboard_right').style.width = "100%";
+  }
+}
+
+function changeURL(id){
+  window.location.search = "page="+id;
+  return false;
+}
+
+function checkPage(user){
+  if (page === 'dashboard'){
+    showUserDashboard(user);
+  } else if(page === 'academic-calendar'){
+    showAcademicCalendar(user);
+  } else if(page === 'term-courses'){
+    showTermCourses(user);
+  } else if(page === 'my-courses'){
+    // showMyCourses(user);
+  } else if(page === 'attendance'){
+    // showAttendance(user);
+  } else if(page === 'important-links'){
+    // showImportantLinks(user);
+  }else{
+    showUserDashboard(user);
+  }
+}
+
+function showUserDashboard(user){
+  document.getElementById('dashboard').classList.remove('hide');
+}
+
+function showAcademicCalendar(user){
+  document.getElementById('academic-calendar').classList.remove('hide');
+}
+
+function showTermCourses(user){
+  document.getElementById('term-courses').classList.remove('hide');
+}
+// document.getElementById('header_middle').innerHTML = `<h4>Dashboard</h4>`;
+
 
 //
 // function FriendsHandler(userdata){
