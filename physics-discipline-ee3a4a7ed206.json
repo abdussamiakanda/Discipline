@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "physics-discipline",
+  "private_key_id": "ee3a4a7ed20672c03328cde40089526ee8759cf1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC6YjLKoZ/UIX0W\nA/yhcHUR26O2ezhgtHn08xIA5uC+RlLmblFjYnAJ73qcfYViOZrEIDSMd63Z9BAw\n9aleu4HLAapsYJwOtE8smry12S8NZpkOQzdoOqPKB6ghsU/b8QAUSO6fsJBxbLhn\nkCINNvNRgIgxuewHwo6SceVHJX38N2IZc2ntnOsoKiOQyNpWzDiVWQ838zl1NiEg\n7iKxdN/TLmq68MlTtkMtTw6qyjmtCFX0nA0nStNPPUzHgXSIzND+eMeIu1Hcmh2O\nlW4y//EMTPT5lG89zEHUjAw4sKVxYeej2hmJeA+HEgXppLYylazGsJIzIg69TY0B\nh6GCzjpdAgMBAAECggEAGoCyJjwbRQfKCKJifvZFv1dTDTSyTJX9LYaOzdAGryfC\ny/9t1Ur/EXqbHbt/hvsX9cF6l2rBLtfUoZGdFtpk12ASQrzuE+0xwO7z3IvYc/hd\n1ThbnZeRCL5T+w6Cg4zebQP94nkx4N8LzbYiEWz55mH3e9KrLGNO8KX/a0F6i616\nPryDQChoRFz243nFpDZ5QUYG1WaGlgWcMxnF9cOHLhyqbSUA63tky6H7h0vCK0P4\n6WjsIAZ7nbXVFTaMG+v9gXEy2Rwgb8mwm3mdVc9+I4H5LvT3QuB+66JVbPNws9Vh\nQgPceErWEwVjaAQLAuGMMZpLVn06r7Qkej03PcuYxQKBgQDhxmjHm2FZKsZP1lWc\n4odoyry5B9BAiYd9TAQiUfCd4fry3CPgwkwrNsB4xjuYf1tSLK3QHQHmtj6kXl+w\ncRA2GtKoeWhiaAzp/jTBJYEsmQGbcPMKKVljRj0eiqsgMD5T3oJIwBRYaAy6WLbI\n3iQf9N0n3Bo9fTCBpWn2+afsKwKBgQDTVcuWyuTHShT6pG2M5mgZSF00t4e1Pr+V\nVce3Xll1rfT1HV3zykw5q0QGg+g5+FnpLcTvaMR/Xlweeo77GpBBZ7V/Ofybc7lW\nCQXq9crq79f7JWbnUrRBXVkza5LP6ZZgAU706BDhgzGfCeX1teT66xXlcT/hYKvH\nB5G+j8ZHlwKBgBQtaDXWlBek8/40mIgh0pox7DXZFep+oAY5ofDzQ77IcGX9+JLg\nqm/+P6tLhA3369BnP81mmkHlLaoA6SpaoGlFcmguGX8Z73WGC27rjCTRM8yRhpb0\n5REzOMke+XYx+ZADRb98sxTHj8OjpApFmBLnDlC+ofW213vurY6t9yzrAoGAfJ+w\nchjttpP6MR/7tkY9BwPEawz7iycYpUCziG+sA5h0xoLt35DhSHS1pb3tmRnaM4aZ\nBrFaht2nJxYQ8QTmIpu8zOzuCOHCXnjts3QEmGydie2xdCIySAV7T7ZVGiReV/kN\njaC4K7RI88dLg40jHdC51dbl28s9IR5WlPCF9bsCgYB8bBy01XDxJJcUgcuwqbN6\n7gNwhoY9QcrC0PXrJsk+T/etkNLh5DQCqBc8sWo0IfNwEAkNBnvm2iGtzHxvRv4u\nQm1VmRvbPNzMN8wBybRX+mE0haqu+trE852ZsZcvsz9nEcUgRllG9C19bJ/18jJZ\nZxgdcVvcnRlVOwo88hkYkg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-n533e@physics-discipline.iam.gserviceaccount.com",
+  "client_id": "115045536075449901933",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-n533e%40physics-discipline.iam.gserviceaccount.com"
+}

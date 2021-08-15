@@ -39,7 +39,7 @@
         <form>
           <input type="text" id="name" placeholder="Enter your name.." required>
           <input type="number" id="id" placeholder="Enter student ID.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
-          <input type="number" id="id" placeholder="Enter your batch.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" required>
+          <input type="number" id="batch" placeholder="Enter your batch.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" required>
           <select id="year" required>
             <option value="1st">1st Year</option>
             <option value="2nd">2nd Year</option>
@@ -58,14 +58,14 @@
           </select>
           <input type="number" id="contact" placeholder="Enter contact number.. (01..)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==11) return false;" required>
           <select id="blood_group" required>
-            <option value="A+">A (+ve)</option>
-            <option value="B+">B (+ve)</option>
-            <option value="AB+">AB (+ve)</option>
-            <option value="O+">O (+ve)</option>
-            <option value="A-">A (-ve)</option>
-            <option value="B-">B (-ve)</option>
-            <option value="AB-">AB (-ve)</option>
-            <option value="O-">O (-ve)</option>
+            <option value="A (+ve)">A (+ve)</option>
+            <option value="B (+ve)">B (+ve)</option>
+            <option value="AB (+ve)">AB (+ve)</option>
+            <option value="O (+ve)">O (+ve)</option>
+            <option value="A (-ve)">A (-ve)</option>
+            <option value="B (-ve)">B (-ve)</option>
+            <option value="AB (-ve)">AB (-ve)</option>
+            <option value="O (-ve)">O (-ve)</option>
           </select>
           <button type="submit" class="signup-btn" id="signup_btn">Sign Up</button>
         </form>
@@ -76,13 +76,14 @@
     <section id="dashboard_container" class="dash">
       <div class="dashboard-left" id="dashboard_left">
         <h3 class="dash-head">Academic</h3>
-        <div onclick="changeURL('dashboard')" class="dash-item">Dashboard</div>
-        <div onclick="changeURL('academic-calendar')" class="dash-item">Academic Calendar</div>
-        <div onclick="changeURL('term-courses')" class="dash-item">31 Term Courses</div>
-        <div onclick="changeURL('my-courses')" class="dash-item">My Courses</div>
-        <div onclick="changeURL('attendance')" class="dash-item">Attendance</div>
-        <div onclick="changeURL('important-links')" class="dash-item">Important Links</div>
-        <h3 class="dash-head">Others</h3>
+        <div onclick="changeURL('dashboard',null)" class="dash-item">Dashboard</div>
+        <div onclick="changeURL('academic-calendar',null)" class="dash-item">Academic Calendar</div>
+        <div onclick="changeURL('term-courses',null)" class="dash-item">Term Courses</div>
+        <div onclick="changeURL('my-courses',null)" class="dash-item">My Courses</div>
+        <div onclick="changeURL('attendance',null)" class="dash-item">Attendance</div>
+        <div onclick="changeURL('important-links',null)" class="dash-item">Important Links</div>
+        <h3 class="dash-head">Info</h3>
+        <a class="dash-item" href="#">Teachers</a>
         <a class="dash-item" href="#">CR Privileges</a>
         <a class="dash-item" href="#">Batches</a>
         <a class="dash-item" href="#">Blood Bank</a>
@@ -94,15 +95,16 @@
         <div class="academic-calendar hide" id="academic-calendar">
           Academic Calendar
         </div>
-        <div class="term-courses hide" id="term-courses">
-          <div class="course-item">
-            <h6>PHY-3105 (Theory)</h6>
-            <h4>Electromagnetic Theory</h4> <hr>
-            Section A: Md. Abdul Malek <br>
-            Section B: Abdullah Al-Mamun
-          </div>
+        <div class="term-courses hide" id="term-courses"></div>
+        <div class="single-course hide" id="single-course">
+          Hello SS
         </div>
+        <div class="profile-page hide" id="profile-page">
+          <div class="hello-user" id="hello-user"></div>
+          <div class="user-data" id="user-data"></div>
 
+          <div class="profile-form hide" id="profile_form"></div>
+        </div>
       </div>
     </section>
 
