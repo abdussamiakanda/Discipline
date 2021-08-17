@@ -29,23 +29,31 @@ function checkAuthState(){
 }
 
 function verifyUser(user){
+  var isEmail = false;
+  var isName = false;
   database.ref('/verified-users').orderByKey().once("value").then((snapshot) => {
     snapshot.forEach(function(childSnapshot){
-      database.ref('/verified-users/'+childSnapshot.key).once("value").then((snapshot) => {
-        var email = snapshot.child('email').val();
-        var name = snapshot.child('name').val();
+      var email = snapshot.child(childSnapshot.key+'/email').val();
+      var name = snapshot.child(childSnapshot.key+'/name').val();
 
-        if(email === user.email && !(name)){
-          registerUser(user);
-        }else if(email === user.email && name){
-          verified(user);
-        }else{
-          document.title = "Login";
-          document.getElementById('verify_id').style.display="block";
-          document.getElementById('login_form').style.display="none";
-        }
-      })
+      if(email === user.email && name){
+        isEmail = true;
+        isName = true;
+      }else if(email === user.email && !name){
+        isEmail = true;
+        isName = false;
+      }
     })
+
+    if(isEmail === true && isName === false){
+      registerUser(user);
+    }else if(isEmail === true && isName === true){
+      verified(user);
+    }else if(isEmail === false){
+      document.title = "Verify your account";
+      document.getElementById('login_form').style.display="none";
+      document.getElementById('verify_id').style.display="block";
+    }
   })
 }
 
@@ -58,21 +66,32 @@ document.getElementById("signup_btn").onclick = function (){
   var contact = document.getElementById('contact').value;
   var blood_group = document.getElementById('blood_group').value;
 
-  database.ref('/users/'+userdata.uid).update({
-    name: name,
-    id: id,
-    batch: batch,
-    year: year,
-    term: term,
-    contact: contact,
-    blood: blood_group,
-    type: 'general'
+  database.ref('/verified-users/'+id).once("value").then((snapshot) => {
+    var useremail = snapshot.child('email').exists();
+    var username = snapshot.child('name').exists();
+
+    if(useremail === false && username === false){
+      alertMessage(type="danger", "Student ID does not match!");
+    }else if(useremail === true && username === true){
+      alertMessage(type="danger", "Student ID is already in use!");
+    }else if (useremail === true && username === false){
+      database.ref('/users/'+userdata.uid).update({
+        name: name,
+        id: id,
+        batch: batch,
+        year: year,
+        term: term,
+        contact: contact,
+        blood: blood_group,
+        type: 'general'
+      })
+      database.ref('/verified-users/'+id).update({
+        name: name
+      })
+      checkAuthState();
+      alertMessage(type="success", "Welcome, "+userdata.displayName);
+    }
   })
-  database.ref('/verified-users/'+id).update({
-    name: name
-  })
-  checkAuthState();
-  return false;
 }
 
 function GoogleLogout() {
@@ -101,6 +120,10 @@ function checkPage(user){
     showCourseDetail(user);
   } else if(page === 'profile'){
     showProfile(user);
+  } else if(page === 'teachers'){
+    showTeachers(user,database);
+  } else if(page === 'cr-privilege'){
+    showCRPage(user,database);
   } else if(page === 'my-courses'){
     // showMyCourses(user);
   } else if(page === 'attendance'){
@@ -113,16 +136,19 @@ function checkPage(user){
 }
 
 function showUserDashboard(user){
+  document.title = "Dashboard";
   document.getElementById('header_middle').innerHTML = `<h4>Dashboard</h4>`;
   document.getElementById('dashboard').classList.remove('hide');
 }
 
 function showAcademicCalendar(user){
+  document.title = "Academic Calendar";
   document.getElementById('header_middle').innerHTML = `<h4>Academic Calendar</h4>`;
   document.getElementById('academic-calendar').classList.remove('hide');
 }
 
 function showTermCourses(user){
+  document.title = "Term Courses";
   document.getElementById('term-courses').classList.remove('hide');
   database.ref('/users/'+user.uid).once("value").then((snapshot) => {
     var term = snapshot.child('term').val();
@@ -154,8 +180,10 @@ function showTermCourses(user){
 }
 
 function showCourseDetail(user){
-  document.getElementById('header_middle').innerHTML = `<h4>Course No: ${pageid}</h4>`;
+  document.getElementById('header_middle').innerHTML = `<h4>Course No: ${pageid.toUpperCase()}</h4>`;
   document.getElementById('single-course').classList.remove('hide');
+  document.getElementById('dashboard_left').style.display = "none"
+  document.getElementById('dashboard_right').style.width = "100%";
 }
 
 function showProfile(user){
@@ -213,13 +241,33 @@ function saveUserData(){
   document.getElementById('user-data').classList.remove('hide');
   document.getElementById('profile_form').classList.add('hide');
   showProfile(userdata);
-  alertMessage(type="success", 'Your profile is updated!')
+  alertMessage(type="success", 'Your profile is updated!');
 }
 
 function hideEditProfile(){
   showEditProfileData(userdata,database);
   document.getElementById('user-data').classList.add('hide');
   document.getElementById('profile_form').classList.remove('hide');
+}
+
+function showAllClasses(){
+  
+}
+
+function showAllCTs(){
+  
+}
+
+function showAllCourses(){
+  
+}
+
+function showAllTeachers(){
+  
+}
+
+function showVerifyUsers(){
+  
 }
 
 

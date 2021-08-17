@@ -1,11 +1,18 @@
-@media screen and (min-width: 60em) {
+:root {
+  --no1: #464660;
+  --no2: #368B85;
+  --no3: #B4B897;
+  --no4: #F1E9E5;
+}
+
+@media screen and (min-width: 37.5em){
   html{
     width:100%;
   }
   body{
     font-family: 'Chakra Petch';
-    background-color: white;
-    color: black;
+    background-color: var(--no1);
+    color: var(--no4);
     font-size: 20px;
     margin: 0;
     padding: 0;
@@ -28,7 +35,7 @@
   }
   hr{
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--no4);
   }
 
   /* UNIVERSAL CSS */
@@ -41,12 +48,12 @@
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    background-color: black;
-    color: white;
+    background-color: var(--no2);
+    color: var(--no4);
     cursor: pointer;
   }
   .mybutton:hover {
-    background-color: white;
+    background-color: var(--no4);
     color: black;
   }
   .reverse-btn {
@@ -72,11 +79,11 @@
 
   .header-container {
     position: fixed;
-    background-color: white;
+    background-color: var(--no1);
     top: 0;
     width: 100%;
     z-index: 10;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
   }
   .header {
     padding: 10px 20px;
@@ -87,10 +94,10 @@
   .header h1{
     margin: 0;
     font-family: 'anton';
-    color: black;
+    color: var(--no4);
   }
   .header h1:hover{
-    color: rgba(0,0,0,0.6);
+    color: var(--no3);
   }
   .header-left{
     display: flex;
@@ -109,19 +116,19 @@
     padding: 10px;
     border-radius: 50%;
     font-size: 25px;
-    color: black;
+    color: var(--no4);
     margin-right: 10px;
     cursor: pointer;
   }
   .search-icon:hover {
-    background-color: rgba(0,0,0,0.1);
-    color: black;
+    background-color: rgba(0,0,0,0.2);
+    color: var(--no4);
   }
   .header-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid black;
+    border: 1px solid var(--no4);
     margin-left: 10px;
     cursor: pointer;
   }
@@ -194,33 +201,37 @@
     box-sizing:border-box;
     width: 100%;
     border: none;
-    border-bottom: 2px solid black;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--no4);
+    border-bottom: 2px solid var(--no4);
     padding: 10px 15px;
     font-size: 20px;
     margin: 3px 0px;
   }
   .signup-form input:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
   }
   .signup-form input:focus {
     outline: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
   }
   .signup-form select {
     box-sizing:border-box;
     width: 100%;
     border: none;
-    border-bottom: 2px solid black;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--no4);
+    border-bottom: 2px solid var(--no4);
     padding: 10px 15px;
     font-size: 20px;
     margin: 3px 0px;
   }
   .signup-form select:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
   }
   .signup-form select:focus {
     outline: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
   }
   .signup-btn {
     width: 100%;
@@ -231,14 +242,14 @@
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     cursor: pointer;
     margin-top: 20px;
   }
   .signup-btn:hover {
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
   }
 
   /* DASHBOARD */
@@ -249,7 +260,7 @@
   }
   .dashboard-left {
     width: 20%;
-    border-right: 1px solid rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
   }
@@ -260,18 +271,23 @@
     margin: 10px;
     padding-bottom: 10px;
     text-align: center;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.5);
   }
   .dash-item {
     padding: 8px 12px;
-    color: black;
+    margin: 1px 2px;
+    background-color: var(--no1);
+    color: var(--no4);
     border-radius: 3px;
     cursor: pointer;
   }
   .dash-item:hover {
-    color: white;
-    background-color: black;
+    color: black;
+    background-color: var(--no4);
   }
+
+  /* COURSES */
+
   .term-courses {
     padding-top: 10px;
     display: flex;
@@ -281,14 +297,14 @@
   }
   .course-item {
     padding: 10px;
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 5px;
     box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
     cursor: pointer;
     margin: 5px;
   }
   .course-item:hover {
-    background-color: black;
+    background-color: rgba(0,0,0,0.4);
     color: white;
   }
   .course-item:hover hr{
@@ -298,6 +314,190 @@
   .course-item h4 {
     margin: 0px;
     text-align: center;
+  }
+
+  /* SINGLE COURSE */
+
+  .course-head {
+    padding-top: 20px;
+    text-align: center;
+  }
+  .course-head h3,h5{
+    margin: 0px;
+  }
+  .course-content {
+    display: flex;
+    justify-content: center;
+  }
+  .course-content a {
+    color: var(--no2);
+  }
+  .course-content a:hover {
+    color: var(--no3);
+  }
+  .section-a {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin: 10px;
+    border-radius: 3px;
+  }
+  .section-b {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin: 10px;
+    border-radius: 3px;
+  }
+  .section-title {
+    background-color: rgba(0,0,0,0.6);
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+  }
+  .section-content {
+    padding: 10px;
+  }
+  .collapsible {
+    border: 1px solid black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: 'Chakra Petch';
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .activate, .collapsible:hover {
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+  }
+  .collapsible-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 5px;
+  }
+
+  /* TEACHERS */
+
+  .teachers-page {
+    padding-top: 10px;
+  }
+  .teachers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .teacher-item {
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .teacher-item img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.2);
+    margin-right: 10px;
+  }
+  .teacher-content {
+    margin-left: 10px;
+  }
+  .link-icon {
+    color: white;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+  }
+  .link-icon:hover {
+    color: var(--no2);
+    border: 1px solid var(--no2);
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 50%;
+  }
+
+  /* CR PRIVILEGES */
+
+  .cr-page{
+  }
+  .cr-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.1);
+  }
+  .menubar {
+    padding: 10px;
+    margin: 0px 2px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.4);
+    cursor: pointer;
+  }
+  .menubar:hover {
+    background-color: var(--no4);
+    color: black;
+  }
+  .allclasses{
+  }
+  .class-item{
+    margin: 5px 10px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  .class-item h4 {
+    margin: 0;
+  }
+  .class-details {
+    display: flex;
+    justify-content: center;
+  }
+  .class-left {
+    width: 100%;
+  }
+  .icon {
+    font-size: 22px;
+    padding: 3px;
+    color: var(--no4);
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  .icon:hover {
+    color: black;
+  }
+  .drop-menu{
+    display: none;
+    position: absolute;
+    background-color: white;
+    border-radius: 5px;
+    min-width: 100px;
+    right: 0;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  .drop-menu-item{
+    padding: 5px 10px;
+    color: black;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .drop-menu-item:hover{
+    background-color: black;
+    color: white;
   }
 
   /* USER PROFILE */
@@ -341,33 +541,69 @@
     box-sizing:border-box;
     width: 100%;
     border: none;
+    color: var(--no4);
+    background-color: rgba(0,0,0,0.1);
     border-bottom: 2px solid black;
     padding: 8px 10px;
     font-size: 20px;
     margin: 3px 0px;
   }
   .profile-form input:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
   }
   .profile-form input:focus {
     outline: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
   }
   .profile-form select {
     box-sizing:border-box;
     width: 100%;
     border: none;
+    color: var(--no4);
+    background-color: rgba(0,0,0,0.1);
     border-bottom: 2px solid black;
     padding: 8px 10px;
     font-size: 20px;
     margin: 3px 0px;
   }
   .profile-form select:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
   }
   .profile-form select:focus {
     outline: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  /* NOTIFICATIONS */
+
+  .notifications {
+    position: fixed;
+    bottom: 0px;
+    right: 10px;
+    width: 400px;
+  }
+  .notification {
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 5px;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 10px;
+  }
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .closebtn:hover {
+    color: red;
   }
 
   /* ALERTS */

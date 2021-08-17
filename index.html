@@ -2,11 +2,11 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="./assets/image/icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/css/master-mobile.css">
-    <link rel="stylesheet" href="./assets/css/master-tab.css">
     <link rel="stylesheet" href="./assets/css/master-pc.css">
   </head>
   <body>
@@ -36,8 +36,8 @@
       </div>
       <div class="signup-form" id="signup_form">
         <h3>Sign Up</h3>
-        <form>
-          <input type="text" id="name" placeholder="Enter your name.." required>
+        <form onSubmit="return false;">
+          <input type="text" id="name" placeholder="Enter your name.." autocomplete="off" required>
           <input type="number" id="id" placeholder="Enter student ID.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
           <input type="number" id="batch" placeholder="Enter your batch.." pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;" required>
           <select id="year" required>
@@ -78,35 +78,171 @@
         <h3 class="dash-head">Academic</h3>
         <div onclick="changeURL('dashboard',null)" class="dash-item">Dashboard</div>
         <div onclick="changeURL('academic-calendar',null)" class="dash-item">Academic Calendar</div>
-        <div onclick="changeURL('term-courses',null)" class="dash-item">Term Courses</div>
         <div onclick="changeURL('my-courses',null)" class="dash-item">My Courses</div>
         <div onclick="changeURL('attendance',null)" class="dash-item">Attendance</div>
-        <div onclick="changeURL('important-links',null)" class="dash-item">Important Links</div>
+        <div onclick="changeURL('term-courses',null)" class="dash-item">Term Courses</div>
         <h3 class="dash-head">Info</h3>
-        <a class="dash-item" href="#">Teachers</a>
-        <a class="dash-item" href="#">CR Privileges</a>
-        <a class="dash-item" href="#">Batches</a>
-        <a class="dash-item" href="#">Blood Bank</a>
+        <div onclick="changeURL('teachers',null)" class="dash-item">Teachers & Staffs</div>
+        <div onclick="changeURL('batches',null)" class="dash-item">Batches</div>
+        <div onclick="changeURL('blood-bank',null)" class="dash-item">Blood Bank</div>
+        <div onclick="changeURL('cr-privilege',null)" class="dash-item">CR Privileges</div>
+        <div onclick="changeURL('important-links',null)" class="dash-item">Important Links</div>
       </div>
       <div class="dashboard-right" id="dashboard_right">
+        <!-- USER DASHBOARD -->
         <div class="user-dashboard hide" id="dashboard">
           My Dashboard
         </div>
+        <!-- ACADEMIC CALENDAR -->
         <div class="academic-calendar hide" id="academic-calendar">
           Academic Calendar
         </div>
+        <!-- TERM COURSES DONE -->
         <div class="term-courses hide" id="term-courses"></div>
+        <!-- SINGLE COURSE -->
         <div class="single-course hide" id="single-course">
-          Hello SS
+          <div class="course-head">
+            <h5>Course No: PHY-3107 (Theory)</h5>
+            <h3>Course Title: Crystallography</h3> <hr>
+            <div style="padding: 10px;">
+              <a href="#" class="mybutton">Download Curriculum</a>
+            </div>
+          </div>
+          <div class="course-content">
+            <div class="section-a">
+              <div class="section-title">SECTION-A</div>
+              <div class="section-content">
+                Instructor: SS <i class="fa fa-info-circle" aria-hidden="true"></i> <br>
+                Syllabus: <a href="#">Download</a>
+
+                <div class="collapsible">
+                  Class Lectures <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </div>
+                <div class="collapsible-content">
+                  Lecture 01 <br>
+                  Lecture 02
+                </div>
+                <div class="collapsible">
+                  Class Assessments <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </div>
+                <div class="collapsible-content">
+                  CT 01 <br>
+                  CT 02
+                </div>
+              </div>
+            </div>
+            <div class="section-b">
+              <div class="section-title">SECTION-B</div>
+              <div class="section-content">
+                Instructor: SS <i class="fa fa-info-circle" aria-hidden="true"></i> <br>
+                Syllabus: <a href="#">Download</a>
+
+                <div class="collapsible">
+                  Class Lectures <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </div>
+                <div class="collapsible-content">
+                  Lecture 01 <br>
+                  Lecture 02
+                </div>
+                <div class="collapsible">
+                  Class Assessments <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </div>
+                <div class="collapsible-content">
+                  CT 01 <br>
+                  CT 02
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- PROFILE PAGE DONE -->
         <div class="profile-page hide" id="profile-page">
           <div class="hello-user" id="hello-user"></div>
           <div class="user-data" id="user-data"></div>
-
           <div class="profile-form hide" id="profile_form"></div>
         </div>
+
+
+
+
+        <!-- TEACHERS DONE-->
+        <div class="teachers-page hide" id="teachers">
+          <div class="teachers" id="teachers_items"></div>
+          <div class="teachers" id="staffs_items"></div>
+        </div>
+        <!-- CR PRIVILEGES -->
+        <div class="cr-page hide" id="cr-privilege">
+          <div class="cr-menu">
+            <div type="button" onClick="showAllClasses()" class="menubar">All Classes</div>
+            <div type="button" onClick="showAllCTs()" class="menubar">Class Assessments</div>
+            <div type="button" onClick="showAllCourses()" class="menubar">All Courses</div>
+            <div type="button" onClick="showAllTeachers()" class="menubar">Teachers & Staffs</div>
+            <div type="button" onClick="showVerifyUsers()" class="menubar">Verify Batchmates</div>
+          </div>
+          <div class="cr-contents">
+            <div class="allclasses" id="allclasses">
+              <div class="class-item">
+                <div class="class-details">
+                  <div class="class-left">
+                    <h4>Lecture-01</h4>
+                    Course No: PHY-3107 (Theory) <br>
+                    Course Title: Crystallography <br>
+                    Section: A
+                  </div>
+                  <div class="class-left">
+                    Instructor: Emran Hossain <br>
+                    Location: Room-02 <br>
+                    Time: 2.00 pm; 2 July 2021 <br>
+                    Topics: Alsdsd,sdksdsd,sdjsdjs
+                  </div>
+                  <div class="dropdown">
+                    <i onclick="hideshowDropMenu('course-drop')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+                    <div class="drop-menu" id="course-drop">
+                      <div class="drop-menu-item">Edit</div>
+                      <div class="drop-menu-item">Delete</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="">
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+        <!-- NOTHING BELOW IT -->
       </div>
     </section>
+
+    <section class='notifications hide'>
+      <div class="notification">
+        <span class="closebtn">&times;</span>
+        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+      </div>
+
+      <div class="notification success">
+        <span class="closebtn">&times;</span>
+        <strong>Success!</strong> Indicates a successful or positive action.
+      </div>
+
+      <div class="notification info">
+        <span class="closebtn">&times;</span>
+        <strong>Info!</strong> Indicates a neutral informative change or action.
+      </div>
+
+      <div class="notification warning">
+        <span class="closebtn">&times;</span>
+        <strong>Warning!</strong> Indicates a warning that might need attention.
+      </div>
+    </section>
+
+
 
     <section style="margin-top:30px;">
       <div class="alerts" id="alerts"></div>

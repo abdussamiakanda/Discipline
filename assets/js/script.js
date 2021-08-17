@@ -10,6 +10,7 @@ function verified(user){
   document.title = "Dashboard";
   document.getElementById('login_form').style.display="none";
   document.getElementById('signup_form').style.display="none";
+  document.getElementById('verify_id').style.display="none";
   showDashboard(user);
 }
 
@@ -22,10 +23,10 @@ function showDashboard(user){
 
 function showHeader(user){
   document.getElementById('header_right').innerHTML = `
-    <a href="./search.html"><i class="search-icon fa fa-search" aria-hidden="true"></i></a>
+    <div onclick="changeURL('search',null)"><i class="search-icon fa fa-search" aria-hidden="true"></i></div>
     <div>${user.displayName}</div>
     <div class="dropdown">
-      <div class="user-image-div" onclick="hideshowDropMenu()"><img class="header-image" src="${user.photoURL}" alt=""></div>
+      <div class="user-image-div" onclick="hideshowDropMenu('dropdown-menu')"><img class="header-image" src="${user.photoURL}" alt=""></div>
       <div class="dropdown-menu" id="dropdown-menu">
         <div class="dropdown-menu-item" onclick="changeURL('profile',null)">Profile</div>
         <div class="dropdown-menu-item" onClick="GoogleLogout()">Logout</div>
@@ -44,11 +45,11 @@ function hideshowDashMenu(){
   }
 }
 
-function hideshowDropMenu(){
-  if(document.getElementById('dropdown-menu').style.display === "none"){
-    document.getElementById('dropdown-menu').style.display = "block";
+function hideshowDropMenu(id){
+  if(document.getElementById(id).style.display === "none"){
+    document.getElementById(id).style.display = "block";
   } else {
-    document.getElementById('dropdown-menu').style.display = "none";
+    document.getElementById(id).style.display = "none";
   }
 }
 
@@ -175,6 +176,84 @@ function showEditProfileData(user,database){
   })
 }
 
+function showTeachers(user,database){
+  document.title = "Teachers & Staffs";
+  document.getElementById('header_middle').innerHTML = `<h4>Teachers & Staffs</h4>`;
+  document.getElementById('teachers').classList.remove('hide');
+  database.ref('/teachers').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var name = snapshot.child(childSnapshot.key+'/name').val();
+      var image = snapshot.child(childSnapshot.key+'/image').val();
+      var desig = snapshot.child(childSnapshot.key+'/desig').val();
+      var office = snapshot.child(childSnapshot.key+'/office').val();
+      var discipline = snapshot.child(childSnapshot.key+'/discipline').val();
+      var varsity = snapshot.child(childSnapshot.key+'/varsity').val();
+      var contact = snapshot.child(childSnapshot.key+'/contact').val();
+      var email = snapshot.child(childSnapshot.key+'/email').val();
+      var web = snapshot.child(childSnapshot.key+'/web').val();
+      var type = snapshot.child(childSnapshot.key+'/type').val();
+
+      if(type === 'teacher'){
+        var teachEl = `
+          <div class="teacher-item">
+            <img src="${image}" alt="">
+            <div class="teacher-content">
+              <strong>${name}</strong> <br>
+              ${desig} <br>
+              Room-${office} <br>
+              ${discipline} Discipline <br>
+              ${varsity} <br>
+              <a target="_blank" href="tel:${contact}"><i class="link-icon fa fa-phone" aria-hidden="true"></i></a>
+              <a target="_blank" href="mailto:${email}"><i class="link-icon fa fa-envelope" aria-hidden="true"></i></a>
+              <a target="_blank" href="${web}"><i class="link-icon fa fa-globe" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        `
+        document.getElementById('teachers_items').innerHTML += teachEl;
+      }
+    })
+  })
+  database.ref('/teachers').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var name = snapshot.child(childSnapshot.key+'/name').val();
+      var image = snapshot.child(childSnapshot.key+'/image').val();
+      var desig = snapshot.child(childSnapshot.key+'/desig').val();
+      var office = snapshot.child(childSnapshot.key+'/office').val();
+      var discipline = snapshot.child(childSnapshot.key+'/discipline').val();
+      var varsity = snapshot.child(childSnapshot.key+'/varsity').val();
+      var contact = snapshot.child(childSnapshot.key+'/contact').val();
+      var email = snapshot.child(childSnapshot.key+'/email').val();
+      var web = snapshot.child(childSnapshot.key+'/web').val();
+      var type = snapshot.child(childSnapshot.key+'/type').val();
+
+      if(type === 'staff'){
+        var teachEl = `
+          <div class="teacher-item">
+            <img src="${image}" alt="">
+            <div class="teacher-content">
+              <strong>${name}</strong> <br>
+              ${desig} <br>
+              Room-${office} <br>
+              ${discipline} Discipline <br>
+              ${varsity} <br>
+              <a target="_blank" href="tel:${contact}"><i class="link-icon fa fa-phone" aria-hidden="true"></i></a>
+              <a target="_blank" href="mailto:${email}"><i class="link-icon fa fa-envelope" aria-hidden="true"></i></a>
+              <a target="_blank" href="${web}"><i class="link-icon fa fa-globe" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        `
+        document.getElementById('staffs_items').innerHTML += teachEl;
+      }
+    })
+  })
+}
+
+function showCRPage(user,database){
+  document.title = "CR Privileges";
+  document.getElementById('header_middle').innerHTML = `<h4>Welcome, CR!</h4>`;
+  document.getElementById('cr-privilege').classList.remove('hide');
+  alertMessage(type="danger", "As a CR you get special privileges to<br>control data that's flows in this website.");
+}
 
 
 
@@ -182,11 +261,31 @@ function showEditProfileData(user,database){
 
 
 
+var coll = document.getElementsByClassName("collapsible");
+var i;
 
+for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("activate");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    });
+}
 
+var close = document.getElementsByClassName("closebtn");
+var i;
 
-
-
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
 
 function alertMessage(type="success", message){
     let x = document.getElementById("alerts")
