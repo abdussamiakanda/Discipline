@@ -250,15 +250,25 @@ function showTeachers(user,database){
 
 function showCRPage(user,database){
   document.title = "CR Privileges";
-  document.getElementById('header_middle').innerHTML = `<h4>Welcome, CR!</h4>`;
+  document.getElementById('header_middle').innerHTML = `<h4>CR Privileges</h4>`;
   document.getElementById('cr-privilege').classList.remove('hide');
-  alertMessage(type="danger", "As a CR you get special privileges to<br>control data that's flows in this website.");
+  showAllClassePage();
 }
 
 
 
 
 
+
+function registerCRactivity(database,title,content){
+  var time = new Date();
+  var date = time.toLocaleString('en-US',{hour:'numeric',minute:'numeric',hour12:true,day:'2-digit',month:"long",year:"numeric"});
+  database.ref('/cr-activities/'+Date.parse(time)).update({
+    time: date,
+    title: title,
+    content: content
+  })
+}
 
 
 var coll = document.getElementsByClassName("collapsible");

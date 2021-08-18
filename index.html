@@ -173,42 +173,121 @@
         <!-- CR PRIVILEGES -->
         <div class="cr-page hide" id="cr-privilege">
           <div class="cr-menu">
-            <div type="button" onClick="showAllClasses()" class="menubar">All Classes</div>
-            <div type="button" onClick="showAllCTs()" class="menubar">Class Assessments</div>
-            <div type="button" onClick="showAllCourses()" class="menubar">All Courses</div>
-            <div type="button" onClick="showAllTeachers()" class="menubar">Teachers & Staffs</div>
-            <div type="button" onClick="showVerifyUsers()" class="menubar">Verify Batchmates</div>
+            <div type="button" onClick="showAllClassePage()" class="menubar">All Classes</div>
+            <div type="button" onClick="showAllCTPage()" class="menubar">Class Assessments</div>
+            <div type="button" onClick="showAllCoursePage()" class="menubar">All Courses</div>
+            <div type="button" onClick="showAllTeacherPage()" class="menubar">Teachers & Staffs</div>
+            <div type="button" onClick="showVerifyUserPage()" class="menubar">Verify Users</div>
           </div>
           <div class="cr-contents">
-            <div class="allclasses" id="allclasses">
-              <div class="class-item">
-                <div class="class-details">
-                  <div class="class-left">
-                    <h4>Lecture-01</h4>
-                    Course No: PHY-3107 (Theory) <br>
-                    Course Title: Crystallography <br>
-                    Section: A
-                  </div>
-                  <div class="class-left">
-                    Instructor: Emran Hossain <br>
-                    Location: Room-02 <br>
-                    Time: 2.00 pm; 2 July 2021 <br>
-                    Topics: Alsdsd,sdksdsd,sdjsdjs
-                  </div>
-                  <div class="dropdown">
-                    <i onclick="hideshowDropMenu('course-drop')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
-                    <div class="drop-menu" id="course-drop">
-                      <div class="drop-menu-item">Edit</div>
-                      <div class="drop-menu-item">Delete</div>
-                    </div>
-                  </div>
+            <!-- CLASSES PAGE DONE -->
+            <div id="allclasspage">
+              <div class="class-add">
+                <i onclick="showAddClassForm()" class="add-icon fa fa-plus" aria-hidden="true"> Add New Class</i>
+                <div class="addclassform hide" id="addclassform">
+                  <form onSubmit="return false;" id="classaddform1">
+                    <select id="courseno2" required></select>
+                    <select id="section2" required>
+                      <option value="A">Section-A</option>
+                      <option value="B">Section-B</option>
+                    </select>
+                    <input type="text" id="location2" placeholder="Room no or URL" required>
+                    <input type="datetime-local" id="time2" required>
+                    <input type="text" id="topics2" placeholder="Topics (Optional)">
+                    <button type="button" class="reverse-btn" onclick="addClassToDatabase()">Add</button>
+                  </form>
                 </div>
               </div>
+              <div class="allclasses" id="allclasses"></div>
+            </div>
+            <!-- CT PAGE DONE -->
+            <div id="allctpage">
+              <div class="class-add">
+                <i onclick="showAddCTForm()" class="add-icon fa fa-plus" aria-hidden="true"> Add New Class Assessment</i>
+                <div class="addclassform hide" id="addctform">
+                  <form onSubmit="return false;" id="ctaddform1">
+                    <select id="type3" required>
+                      <option value="Class Test">Class Test</option>
+                      <option value="Assignment">Assignment</option>
+                      <option value="Viva">Viva</option>
+                    </select>
+                    <select id="courseno3" required></select>
+                    <select id="section3" required>
+                      <option value="A">Section-A</option>
+                      <option value="B">Section-B</option>
+                    </select>
+                    <input type="text" id="location3" placeholder="Room no or URL" required>
+                    <input type="datetime-local" id="time3" required>
+                    <input type="text" id="topics3" placeholder="Topics (Optional)">
+                    <button type="button" class="reverse-btn" onclick="addCTToDatabase()">Add</button>
+                  </form>
+                </div>
+              </div>
+              <div class="allclasses" id="allcts"></div>
+            </div>
+            <!-- COURSE PAGE DONE -->
+            <div id="allcoursepage">
+              <div class="class-add">
+                <i onclick="showAddCourseForm()" class="add-icon fa fa-plus" aria-hidden="true"> Add New Course</i>
+                <div class="addclassform hide" id="addcourseform">
+                  <form onSubmit="return false;" id="courseaddform4">
+                    <input type="text" id="courseno4" placeholder="Course No.. (e.g., PHY-1101)" required>
+                    <input type="text" id="coursetitle4" placeholder="Course Title.. (e.g., Vector Analysis)" required>
+                    <select id="type4" required>
+                      <option value="Theory">Theory</option>
+                      <option value="Sessional">Sessional</option>
+                    </select>
+                    <select id="secA4" required></select>
+                    <select id="secB4" required></select>
+                    <input type="text" id="syllabus4" placeholder="Course syllabus url.. (e.g., Google Drive url)" required>
+                    <button type="button" class="reverse-btn" onclick="addCourseToDatabase()">Add</button>
+                  </form>
+                </div>
+              </div>
+              <div class="allclasses" id="allcoursess"></div>
+            </div>
+            <!-- ALL TEACHERS PAGE DONE -->
+            <div id="allteacherpage">
+              <div class="class-add">
+                <i onclick="showAddTeacherForm()" class="add-icon fa fa-plus" aria-hidden="true"> Add New Teacher/Staff</i>
+                <div class="addclassform hide" id="addteacherform">
+                  <form onSubmit="return false;" id="teacheraddform6">
+                    <input type="text" id="id6" placeholder="Short form.. (e.g., MSP, MRR)" required>
+                    <input type="text" id="name6" placeholder="Enter teacher name.." autocomplete="off" required>
+                    <select id="type6" required>
+                      <option value="teacher">Teacher</option>
+                      <option value="staff">Staff</option>
+                    </select>
+                    <input type="text" id="desig6" placeholder="Enter designation.. (e.g., Lecturer)" required>
+                    <input type="text" id="discipline6" placeholder="Enter discipline.." value="Physics" required>
+                    <input type="text" id="varsity6" placeholder="Enter university.." value="Khulna University" required>
+                    <input type="text" id="office6" placeholder="Enter office.. (e.g., 3425)" required>
+                    <input type="text" id="email6" placeholder="Enter email address.." autocomplete="off" required>
+                    <input type="number" id="contact6" placeholder="Enter contact number.." autocomplete="off" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==11) return false;" required>
+                    <input type="text" id="image6" placeholder="Enter image url.." required>
+                    <input type="text" id="web6" placeholder="Enter web address.." required>
+                    <button type="button" class="reverse-btn" onclick="addTeacherToDatabase()">Add</button>
+                  </form>
+                </div>
+              </div>
+              <div class="allclasses" id="allteachersstaff"></div>
+            </div>
+            <!-- ALLL USERS PAGE DONE -->
+            <div id="allverifieduserpage">
+              <div class="class-add">
+                <div class="addclassorm" id="addcourseform">
+                  <form onSubmit="return false;" id="useraddform5">
+                    <div class="form-flex">
+                      <input type="number" id="id5" style="width:50%;" placeholder="Student ID (e.g., 181701)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
+                      <input type="text" id="email5" placeholder="Email Address" required>
+                      <button type="button" class="just-btn" onclick="addUserToDatabase()">Add New User</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="allclasses" id="allusers5"></div>
             </div>
 
-            <div class="">
-
-            </div>
 
           </div>
         </div>
@@ -219,6 +298,7 @@
         <!-- NOTHING BELOW IT -->
       </div>
     </section>
+
 
     <section class='notifications hide'>
       <div class="notification">

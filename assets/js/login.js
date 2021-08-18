@@ -250,27 +250,582 @@ function hideEditProfile(){
   document.getElementById('profile_form').classList.remove('hide');
 }
 
-function showAllClasses(){
-  
+function showAllClassePage(){
+  document.getElementById('allclasspage').style.display = 'block';
+  document.getElementById('allctpage').style.display = 'none';
+  document.getElementById('allcoursepage').style.display = 'none';
+  document.getElementById('allteacherpage').style.display = 'none';
+  document.getElementById('allverifieduserpage').style.display = 'none';
+  showAllClasses();
 }
+
+function showAllCTPage(){
+  document.getElementById('allclasspage').style.display = 'none';
+  document.getElementById('allctpage').style.display = 'block';
+  document.getElementById('allcoursepage').style.display = 'none';
+  document.getElementById('allteacherpage').style.display = 'none';
+  document.getElementById('allverifieduserpage').style.display = 'none';
+  showAllCTs();
+}
+
+function showAllCoursePage(){
+  document.getElementById('allclasspage').style.display = 'none';
+  document.getElementById('allctpage').style.display = 'none';
+  document.getElementById('allcoursepage').style.display = 'block';
+  document.getElementById('allteacherpage').style.display = 'none';
+  document.getElementById('allverifieduserpage').style.display = 'none';
+  showAllCourses();
+}
+
+function showAllTeacherPage(){
+  document.getElementById('allclasspage').style.display = 'none';
+  document.getElementById('allctpage').style.display = 'none';
+  document.getElementById('allcoursepage').style.display = 'none';
+  document.getElementById('allteacherpage').style.display = 'block';
+  document.getElementById('allverifieduserpage').style.display = 'none';
+  showAllTeachers();
+}
+
+function showVerifyUserPage(){
+  document.getElementById('allclasspage').style.display = 'none';
+  document.getElementById('allctpage').style.display = 'none';
+  document.getElementById('allcoursepage').style.display = 'none';
+  document.getElementById('allteacherpage').style.display = 'none';
+  document.getElementById('allverifieduserpage').style.display = 'block';
+  showVerifyUsers();
+}
+
+function showAllClasses(){
+  document.getElementById('allclasses').innerHTML = ``;
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/classes').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var course = snapshot.child(childSnapshot.key+'/course').val();
+        var location = snapshot.child(childSnapshot.key+'/location').val();
+        var section = snapshot.child(childSnapshot.key+'/section').val();
+        var time = snapshot.child(childSnapshot.key+'/time').val();
+        var topics = snapshot.child(childSnapshot.key+'/topics').val();
+
+        database.ref('/'+term+'-term/courses/'+course).once("value").then((snapshot) => {
+          var title = snapshot.child('title').val();
+          var teacher = snapshot.child('sec'+section+'/teacher').val();
+
+          var classEl = `
+            <div class="class-item">
+              <div class="class-details">
+                <div class="class-left">
+                  Course No: ${course.toUpperCase()} <br>
+                  Course Title: ${title} <br>
+                  Section: ${section} <br>
+                  Instructor: ${teacher}
+                </div>
+                <div class="class-left">
+                  Location: Room-${location} <br>
+                  Time: ${time} <br>
+                  Topics: ${topics}
+                </div>
+                <div class="dropdown">
+                  <i onclick="hideshowDropMenu('course-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+                  <div class="drop-menu" id="course-${childSnapshot.key}">
+                    <div class="drop-menu-item" onclick="deleteClass('${term}','${childSnapshot.key}')">Delete</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+          document.getElementById('allclasses').innerHTML += classEl;
+        })
+      })
+    })
+  })
+}
+
+function deleteClass(term,id){
+  database.ref('/'+term+'-term/classes/'+id).remove();
+  registerCRactivity(database,userdata.displayName+' deleted a class from the database','Term: '+term+'; Classid: '+id);
+  showAllClasses();
+}
+
+function showAddClassForm(){
+  let x = document.getElementById('addclassform');
+  if(x.style.display === 'none'){
+    x.style.display = 'block';
+    showAddClassFormData();
+  }else{
+    x.style.display = 'none';
+  }
+}
+
+function showAddClassFormData(){
+  document.getElementById('courseno2').innerHTML = '';
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        let formEl = `<option value="${childSnapshot.key}">${childSnapshot.key.toUpperCase()}</option>`;
+        document.getElementById('courseno2').innerHTML += formEl;
+      })
+    })
+  })
+}
+
+function addClassToDatabase(){
+  var course = document.getElementById('courseno2').value;
+  var section = document.getElementById('section2').value;
+  var location = document.getElementById('location2').value;
+  var time = document.getElementById('time2').value;
+  var topics = document.getElementById('topics2').value;
+  var date1 = new Date(time);
+  var classid = Date.parse(time);
+  var date = date1.toLocaleString('en-BD',{hour:'numeric',minute:'numeric',hour12:true,day:'2-digit',month:"long",year:"numeric"});
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/classes/'+classid).once("value").then((snapshot) => {
+      var isAvail = snapshot.child('section').exists();
+
+      if(isAvail === true){
+        alertMessage(type="success", 'Class is already scheduled for this time!');
+      }else{
+        database.ref('/'+term+'-term/classes/'+classid).update({
+          course: course,
+          location: location,
+          section: section,
+          time: date,
+          topics: topics
+        })
+        document.getElementById('addclassform').style.display = 'none';
+        showAllClasses();
+        document.getElementById("classaddform1").reset();
+        registerCRactivity(database,userdata.displayName+' added a new class to database','Course No: '+course+'; Section: '+section+'; Time: '+date);
+        // sendNotification(course,);
+        // sendEmail();
+      }
+
+    })
+  })
+}
+
+// CTS
 
 function showAllCTs(){
-  
+  document.getElementById('allcts').innerHTML = ``;
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/cts').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var course = snapshot.child(childSnapshot.key+'/course').val();
+        var location = snapshot.child(childSnapshot.key+'/location').val();
+        var section = snapshot.child(childSnapshot.key+'/section').val();
+        var time = snapshot.child(childSnapshot.key+'/time').val();
+        var topics = snapshot.child(childSnapshot.key+'/topics').val();
+        var type = snapshot.child(childSnapshot.key+'/type').val();
+
+        database.ref('/'+term+'-term/courses/'+course).once("value").then((snapshot) => {
+          var title = snapshot.child('title').val();
+          var teacher = snapshot.child('sec'+section+'/teacher').val();
+
+          var classEl = `
+            <div class="class-item">
+              <div class="class-details">
+                <div class="class-left">
+                  <h4>Type: ${type}</h4>
+                  Course No: ${course.toUpperCase()} <br>
+                  Course Title: ${title} <br>
+                  Section: ${section}
+                </div>
+                <div class="class-left">
+                  Instructor: ${teacher} <br>
+                  Location: Room-${location} <br>
+                  Time: ${time} <br>
+                  Topics: ${topics}
+                </div>
+                <div class="dropdown">
+                  <i onclick="hideshowDropMenu('ct-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+                  <div class="drop-menu" id="ct-${childSnapshot.key}">
+                    <div class="drop-menu-item" onclick="deleteCT('${term}','${childSnapshot.key}')">Delete</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+          document.getElementById('allcts').innerHTML += classEl;
+        })
+      })
+    })
+  })
 }
+
+function deleteCT(term,id){
+  database.ref('/'+term+'-term/cts/'+id).remove();
+  registerCRactivity(database,userdata.displayName+' deleted a CT from the database','Term: '+term+'; CTid: '+id);
+  showAllCTs();
+}
+
+function showAddCTForm(){
+  let x = document.getElementById('addctform');
+  if(x.style.display === 'none'){
+    x.style.display = 'block';
+    showAddCTFormData();
+  }else{
+    x.style.display = 'none';
+  }
+}
+
+function showAddCTFormData(){
+  document.getElementById('courseno3').innerHTML = '';
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        let formEl = `<option value="${childSnapshot.key}">${childSnapshot.key.toUpperCase()}</option>`;
+        document.getElementById('courseno3').innerHTML += formEl;
+      })
+    })
+  })
+}
+
+function addCTToDatabase(){
+  var type = document.getElementById('type3').value;
+  var course = document.getElementById('courseno3').value;
+  var section = document.getElementById('section3').value;
+  var location = document.getElementById('location3').value;
+  var time = document.getElementById('time3').value;
+  var topics = document.getElementById('topics3').value;
+  var date1 = new Date(time);
+  var ctid = Date.parse(time);
+  var date = date1.toLocaleString('en-BD',{hour:'numeric',minute:'numeric',hour12:true,day:'2-digit',month:"long",year:"numeric"});
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/cts/'+ctid).once("value").then((snapshot) => {
+      var isAvail = snapshot.child('section').exists();
+
+      if(isAvail === true){
+        alertMessage(type="success", 'CT is already scheduled for this time!');
+      }else{
+        database.ref('/'+term+'-term/cts/'+ctid).update({
+          type: type,
+          course: course,
+          location: location,
+          section: section,
+          time: date,
+          topics: topics
+        })
+        document.getElementById('addctform').style.display = 'none';
+        showAllCTs();
+        document.getElementById("ctaddform1").reset();
+        registerCRactivity(database,userdata.displayName+' added a new '+type+' to database','Course No: '+course+'; Section: '+section+'; Time: '+date);
+        // sendNotification(course,);
+        // sendEmail();
+      }
+
+    })
+  })
+}
+
+// COURSES
 
 function showAllCourses(){
-  
+  document.getElementById('allcoursess').innerHTML = ``;
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var no = snapshot.child(childSnapshot.key+'/no').val();
+        var title = snapshot.child(childSnapshot.key+'/title').val();
+        var type = snapshot.child(childSnapshot.key+'/type').val();
+        var secA = snapshot.child(childSnapshot.key+'/secA/teacher').val();
+        var secB = snapshot.child(childSnapshot.key+'/secB/teacher').val();
+        var syllabus = snapshot.child(childSnapshot.key+'/syllabus').val();
+
+        var classEl = `
+          <div class="class-item">
+            <div class="class-details">
+              <div class="class-left">
+                Course No: ${no.toUpperCase()} <br>
+                Course Title: ${title} <br>
+                Course Type: ${type}
+              </div>
+              <div class="class-left">
+                Section A: ${secA} <br>
+                Section B: ${secB} <br>
+                Syllabus: <a target="_blank" href="${syllabus}">Download</a>
+              </div>
+              <div class="dropdown">
+                <i onclick="hideshowDropMenu('courseno-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+                <div class="drop-menu" id="courseno-${childSnapshot.key}">
+                  <div class="drop-menu-item" onclick="deleteCourse('${term}','${childSnapshot.key}')">Delete</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+        document.getElementById('allcoursess').innerHTML += classEl;
+      })
+    })
+  })
 }
 
-function showAllTeachers(){
-  
+function deleteCourse(term,id){
+  database.ref('/'+term+'-term/courses/'+id).remove();
+  registerCRactivity(database,userdata.displayName+' deleted a course from the database','Term: '+term+'; Id: '+id);
+  showAllCourses();
 }
+
+function showAddCourseForm(){
+  let x = document.getElementById('addcourseform');
+  if(x.style.display === 'none'){
+    x.style.display = 'block';
+    showAddCourseFormData();
+  }else{
+    x.style.display = 'none';
+  }
+}
+
+function showAddCourseFormData(){
+  var xx = document.getElementById('secA4');
+  var xy = document.getElementById('secB4');
+  xx.innerHTML = '';
+  xy.innerHTML = '';
+  xx.innerHTML += '<option value="Select Instructor of Section A';
+  xy.innerHTML += '<option value="Select Instructor of Section B';
+  database.ref('/teachers').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var teacher = snapshot.child(childSnapshot.key+'/name').val();
+      var type = snapshot.child(childSnapshot.key+'/type').val();
+
+      if(type === 'teacher'){
+        let formEl = `<option value="${teacher}">${teacher}</option>`;
+        xx.innerHTML += formEl;
+        xy.innerHTML += formEl;
+      }
+    })
+  })
+}
+
+function addCourseToDatabase(){
+  var no = document.getElementById('courseno4').value.toLowerCase();
+  var title = document.getElementById('coursetitle4').value;
+  var type = document.getElementById('type4').value;
+  var secA = document.getElementById('secA4').value;
+  var secB = document.getElementById('secB4').value;
+  var syllabus = document.getElementById('syllabus4').value;
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/courses/'+no).once("value").then((snapshot) => {
+      var isAvail = snapshot.child('no').exists();
+
+      if(isAvail === true){
+        alertMessage(type="success", 'Course No already exists!');
+      }else{
+        database.ref('/'+term+'-term/courses/'+no).update({
+          no: no,
+          secA: {
+            teacher: secA
+          },
+          secB: {
+            teacher: secB
+          },
+          title: title,
+          type: type,
+          syllabus: syllabus
+        })
+        document.getElementById('addcourseform').style.display = 'none';
+        showAllCourses();
+        document.getElementById("courseaddform4").reset();
+        registerCRactivity(database,userdata.displayName+' added a new course to database','Course No: '+no+'; Title: '+title);
+        // sendNotification(course,);
+        // sendEmail();
+      }
+
+    })
+  })
+}
+
+// ALL users
 
 function showVerifyUsers(){
-  
+  document.getElementById('allusers5').innerHTML = ``;
+  database.ref('/verified-users').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var email = snapshot.child(childSnapshot.key+'/email').val();
+
+      var userEl = `
+        <div class="class-item">
+          <div class="class-details">
+            <div style="width:30%">
+              ID: ${childSnapshot.key}
+            </div>
+            <div class="class-left">
+              Email: ${email}
+            </div>
+            <div class="dropdown">
+              <i onclick="hideshowDropMenu('sid-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+              <div class="drop-menu" id="sid-${childSnapshot.key}">
+                <div class="drop-menu-item" onclick="deleteID('${childSnapshot.key}')">Delete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+      document.getElementById('allusers5').innerHTML += userEl;
+    })
+  })
+}
+
+function deleteID(id){
+  database.ref('/verified-users/'+id).remove();
+  registerCRactivity(database,userdata.displayName+' deleted a verified user from the database','Id: '+id);
+  showVerifyUsers();
+}
+
+function addUserToDatabase(){
+  var id = document.getElementById('id5').value.toLowerCase();
+  var email = document.getElementById('email5').value;
+
+  database.ref('/verified-users/'+id).once("value").then((snapshot) => {
+    var isAvail = snapshot.child('email').exists();
+
+    if(isAvail === true){
+      alertMessage(type="success", 'Student id is already verified!');
+    }else{
+      database.ref('/verified-users/'+id).update({
+        email: email
+      })
+      document.getElementById("useraddform5").reset();
+      showVerifyUsers();
+      registerCRactivity(database,userdata.displayName+' added a new user to database','ID: '+id+'; Email: '+email);
+      // sendNotification(course,);
+      // sendEmail();
+    }
+  })
+}
+
+// TEACHERS
+
+function showAllTeachers(){
+  document.getElementById('allteachersstaff').innerHTML = ``;
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/teachers').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var id = snapshot.child(childSnapshot.key+'/id').val();
+        var name = snapshot.child(childSnapshot.key+'/name').val();
+        var contact = snapshot.child(childSnapshot.key+'/contact').val();
+        var desig = snapshot.child(childSnapshot.key+'/desig').val();
+        var discipline = snapshot.child(childSnapshot.key+'/discipline').val();
+        var email = snapshot.child(childSnapshot.key+'/email').val();
+        var image = snapshot.child(childSnapshot.key+'/image').val();
+        var office = snapshot.child(childSnapshot.key+'/office').val();
+        var type = snapshot.child(childSnapshot.key+'/type').val();
+        var varsity = snapshot.child(childSnapshot.key+'/varsity').val();
+        var web = snapshot.child(childSnapshot.key+'/web').val();
+
+        var classEl = `
+          <div class="class-item">
+            <div class="class-details">
+              <img class="just-image" src="${image}" alt="">
+              <div class="class-left">
+                Short: ${id.toUpperCase()} <br>
+                Name: ${name} <br>
+                Designation: ${desig} <br>
+                ${discipline} Discipline <br>
+                ${varsity}
+              </div>
+              <div class="class-left">
+                Office: Room-${office} <br>
+                Contact: ${contact} <br>
+                Email: ${email} <br>
+                Type: ${type.capitalize()} <br>
+                Web: <a target="_blank" href="${web}">Click here</a>
+              </div>
+              <div class="dropdown">
+                <i onclick="hideshowDropMenu('teacher-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+                <div class="drop-menu" id="teacher-${childSnapshot.key}">
+                  <div class="drop-menu-item" onclick="deleteTeacher('${childSnapshot.key}')">Delete</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+        document.getElementById('allteachersstaff').innerHTML += classEl;
+      })
+    })
+  })
+}
+
+function deleteTeacher(id){
+  database.ref('/teachers/'+id).remove();
+  registerCRactivity(database,userdata.displayName+' deleted a teacher/staff from the database','Id: '+id);
+  showAllTeachers();
+}
+
+function showAddTeacherForm(){
+  let x = document.getElementById('addteacherform');
+  if(x.style.display === 'none'){
+    x.style.display = 'block';
+  }else{
+    x.style.display = 'none';
+  }
+}
+
+function addTeacherToDatabase(){
+  var id = document.getElementById('id6').value.toLowerCase();
+  var name = document.getElementById('name6').value;
+  var type = document.getElementById('type6').value;
+  var desig = document.getElementById('desig6').value;
+  var discipline = document.getElementById('discipline6').value;
+  var varsity = document.getElementById('varsity6').value;
+  var office = document.getElementById('office6').value;
+  var email = document.getElementById('email6').value;
+  var contact = document.getElementById('contact6').value;
+  var image = document.getElementById('image6').value;
+  var web = document.getElementById('web6').value;
+
+  database.ref('/teachers/'+id).once("value").then((snapshot) => {
+    var isAvail = snapshot.child('id').exists();
+
+    if(isAvail === true){
+      alertMessage(type="success", type.capitalize()+' already exists!');
+    }else{
+      database.ref('/teachers/'+id).update({
+        id: id,
+        name: name,
+        type: type,
+        desig: desig,
+        discipline: discipline,
+        varsity: varsity,
+        office: office,
+        email: email,
+        contact: contact,
+        image: image,
+        web: web
+      })
+      document.getElementById('addteacherform').style.display = 'none';
+      showAllTeachers();
+      document.getElementById("teacheraddform6").reset();
+      registerCRactivity(database,userdata.displayName+' added a new '+type+' to database','Name: '+name+'; Email: '+email+'; Contact: '+contact+'; Discipline: '+discipline);
+      // sendNotification(course,);
+      // sendEmail();
+    }
+  })
 }
 
 
 
+
+
+
+
+
+
+
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 checkAuthState()

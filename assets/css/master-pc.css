@@ -21,6 +21,10 @@
   }
   a{
     text-decoration: none;
+    color: yellow;
+  }
+  a:hover {
+    color: red;
   }
   input,select{
     font-family: 'Chakra Petch';
@@ -447,7 +451,69 @@
     background-color: var(--no4);
     color: black;
   }
-  .allclasses{
+  .class-add {
+    padding: 10px;
+    position: relative;
+  }
+  .add-icon{
+    background-color: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 40px;
+    cursor: pointer;
+  }
+  .add-icon:hover {
+    background-color: var(--no4);
+    color: black;
+  }
+  .addclassform {
+    display: block;
+    position: absolute;
+    top: 70px;
+    z-index: 5;
+    border-radius: 5px;
+    background-color: var(--no1);
+    box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.5);
+    max-width: 500px;
+    margin-top: 10px;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+  }
+  .addclassform input {
+    box-sizing:border-box;
+    width: 100%;
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--no4);
+    border-bottom: 2px solid var(--no4);
+    padding: 10px 15px;
+    font-size: 20px;
+    margin: 3px 0px;
+  }
+  .addclassform input:hover {
+    background-color: rgba(0,0,0,0.4);
+  }
+  .addclassform input:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0.4);
+  }
+  .addclassform select {
+    box-sizing:border-box;
+    width: 100%;
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--no4);
+    border-bottom: 2px solid var(--no4);
+    padding: 10px 15px;
+    font-size: 20px;
+    margin: 3px 0px;
+  }
+  .addclassform select:hover {
+    background-color: rgba(0,0,0,0.4);
+  }
+  .addclassform select:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0.4);
   }
   .class-item{
     margin: 5px 10px;
@@ -498,6 +564,51 @@
   .drop-menu-item:hover{
     background-color: black;
     color: white;
+  }
+  .form-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-flex input {
+    box-sizing:border-box;
+    width: 100%;
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--no4);
+    border-bottom: 2px solid var(--no4);
+    padding: 10px 15px;
+    font-size: 20px;
+    margin: 3px 5px;
+  }
+  .form-flex input:hover {
+    background-color: rgba(0,0,0,0.4);
+  }
+  .form-flex input:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0.4);
+  }
+  .just-btn {
+    padding: 10px;
+    width: 350px;
+    font-family: 'Chakra Petch';
+    font-size: 20px;
+    margin: 0px 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.4);
+    color: var(--no4);
+    cursor: pointer;
+  }
+  .just-btn:hover {
+    background-color: white;
+    color: black;
+  }
+  .just-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 5px 10px;
   }
 
   /* USER PROFILE */
