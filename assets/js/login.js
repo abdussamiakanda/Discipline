@@ -83,6 +83,7 @@ document.getElementById("signup_btn").onclick = function (){
         term: term,
         contact: contact,
         blood: blood_group,
+        email: userdata.email,
         type: 'general'
       })
       database.ref('/verified-users/'+id).update({
@@ -267,6 +268,10 @@ function populate(s1,s2){
 
 function deleteRetake(no){
   database.ref('/users/'+userdata.uid+'/courses/'+no).remove();
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var id = snapshot.child('id').val();
+    database.ref('/retake/'+no+'/'+id).remove();
+  })
   showMyCourses(userdata);
 }
 
@@ -277,6 +282,8 @@ function addRetakeToDatabase(){
   database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
     var isAvail = snapshot.child('courses/'+course).exists();
     var isterm = snapshot.child('term').val();
+    var id = snapshot.child('id').val();
+    var email = snapshot.child('email').val();
 
     if(isterm === term){
       alertMessage(type="success", "You can't add "+term+" term courses as retake!");
@@ -287,6 +294,9 @@ function addRetakeToDatabase(){
         var data = {};
         data[course] = term;
         database.ref('/users/'+userdata.uid+'/courses').update(data);
+        var data1 = {};
+        data1[id] = email;
+        database.ref('/retake/'+course).update(data1);
         document.getElementById('addretakeform').style.display = 'none';
         showMyCourses(userdata);
         document.getElementById("retakeaddform8").reset();
@@ -533,7 +543,6 @@ function addClassToDatabase(){
         // sendNotification(course,);
         // sendEmail();
       }
-
     })
   })
 }
@@ -651,7 +660,6 @@ function addCTToDatabase(){
         // sendNotification(course,);
         // sendEmail();
       }
-
     })
   })
 }
@@ -759,7 +767,6 @@ function addResourceToDatabase(){
         // sendNotification(course,);
         // sendEmail();
       }
-
     })
   })
 }
@@ -880,10 +887,7 @@ function addCourseToDatabase(){
         showAllCourses();
         document.getElementById("courseaddform4").reset();
         registerCRactivity(database,userdata.displayName+' added a new course to database','Course No: '+no+'; Title: '+title);
-        // sendNotification(course,);
-        // sendEmail();
       }
-
     })
   })
 }
@@ -941,13 +945,12 @@ function addUserToDatabase(){
       document.getElementById("useraddform5").reset();
       showVerifyUsers();
       registerCRactivity(database,userdata.displayName+' added a new user to database','ID: '+id+'; Email: '+email);
-      // sendNotification(course,);
-      // sendEmail();
+      sendVerifyEmail(id,email);
     }
   })
 }
 
-// TEACHERS
+// TEACHERS DONE
 
 function showAllTeachers(){
   document.getElementById('allteachersstaff').innerHTML = ``;
@@ -1051,8 +1054,6 @@ function addTeacherToDatabase(){
       showAllTeachers();
       document.getElementById("teacheraddform6").reset();
       registerCRactivity(database,userdata.displayName+' added a new '+type+' to database','Name: '+name+'; Email: '+email+'; Contact: '+contact+'; Discipline: '+discipline);
-      // sendNotification(course,);
-      // sendEmail();
     }
   })
 }
@@ -1062,7 +1063,26 @@ function addTeacherToDatabase(){
 
 
 
+// term,course,subject,body
+function sendEmail(){
+  Email.send({
+    SecureToken : "50196c1a-e09a-4139-830b-ac7e501fbefb",
+  	To : 'abdussamiakanda@gmail.com',
+  	From : "physicsdiscipline@gmail.com",
+  	Subject : 'ok',
+  	Body : 'Hello, <br> Welcome to the DISCIPLINE web app. You email address  has been verified to our website by your batch CR. Use your student id:  when you sign up to the website. Click: https://abdussamiakanda.github.io/Discipline/ <br> Thank you.',
+  })
+}
 
+function sendVerifyEmail(id,email){
+  Email.send({
+    SecureToken : "50196c1a-e09a-4139-830b-ac7e501fbefb",
+  	To : email,
+  	From : "physicsdiscipline@gmail.com",
+  	Subject : 'Hello from Discipline',
+  	Body : 'Hello user, <br> Welcome to the DISCIPLINE web app. You email address '+email+' has been verified to our website by your batch CR. Use your student id: '+id+' when you sign up to the website. <br> Click on this link to get started: https://abdussamiakanda.github.io/Discipline/ <br> Thank you.',
+  })
+}
 
 function listenForNotification(user){
   database.ref('/users/'+user.uid+'/notifications').on('child_added', function (snapshot){
