@@ -125,7 +125,7 @@ function checkPage(user){
   } else if(page === 'cr-privilege'){
     showCRPage(user,database);
   } else if(page === 'my-courses'){
-    // showMyCourses(user);
+    showMyCourses(user);
   } else if(page === 'attendance'){
     // showAttendance(user);
   } else if(page === 'important-links'){
@@ -176,6 +176,122 @@ function showTermCourses(user){
         })
       })
     })
+  })
+}
+
+function showMyCourses(user){
+  document.title = "My Courses";
+  document.getElementById('header_middle').innerHTML = `<h4>My Courses</h4>`;
+  document.getElementById('my-courses').classList.remove('hide');
+  document.getElementById('my-retake-contents').innerHTML = '';
+  document.getElementById('my-courses-contents').innerHTML = '';
+
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+
+    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        database.ref('/'+term+'-term/courses/'+childSnapshot.key).once("value").then((snapshot) => {
+          var no = snapshot.child('no').val().toUpperCase();
+          var title = snapshot.child('title').val();
+          var type = snapshot.child('type').val();
+          var credit = snapshot.child('credit').val();
+
+          var courseDiv = document.getElementById('my-courses-contents');
+          var courseEl = `
+            <div class="course-item" onclick="changeURL('course','${no}')">
+              <h6>${no} (${type})</h6>
+              <h4>${title}</h4>
+              <p>Credit: ${credit}</p>
+            </div>
+          `
+          courseDiv.innerHTML += courseEl;
+        })
+      })
+    })
+  })
+  database.ref('/users/'+user.uid+'/courses').once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var term = childSnapshot.val();
+      var course = childSnapshot.key;
+
+      database.ref('/'+term+'-term/courses/'+course).once("value").then((snapshot) => {
+        var no = snapshot.child('no').val().toUpperCase();
+        var title = snapshot.child('title').val();
+        var type = snapshot.child('type').val();
+        var credit = snapshot.child('credit').val();
+
+        var retakeDiv = document.getElementById('my-retake-contents');
+        var retakeEl = `
+          <div class="retake-item">
+            <div onclick="changeURL('course','${no}')">
+              <h6>${no} (${type})</h6>
+              <h4>${title}</h4>
+              <p>Credit: ${credit} </p>
+            </div>
+            <div class="dropdown" style="margin-left:6px;">
+              <i onclick="hideshowDropMenu('retake-${course}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+              <div class="drop-menu" id="retake-${course}">
+                <div class="drop-menu-item" onclick="deleteRetake('${no.toLowerCase()}')">Delete</div>
+              </div>
+            </div>
+          </div>
+        `
+        retakeDiv.innerHTML += retakeEl;
+      })
+    })
+  })
+}
+
+function showAddRetakeForm(){
+  let x = document.getElementById('addretakeform');
+  if(x.style.display === 'none'){
+    x.style.display = 'block';
+  }else{
+    x.style.display = 'none';
+  }
+}
+
+function populate(s1,s2){
+  var ss1 = document.getElementById(s1);
+  var ss2 = document.getElementById(s2);
+  ss2.innerHTML = '';
+
+  database.ref('/'+ss1.value+'-term/courses/').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var courseEl = `<option value="${childSnapshot.key}">${childSnapshot.key.toUpperCase()}</option>`;
+      ss2.innerHTML += courseEl;
+    })
+  })
+}
+
+function deleteRetake(no){
+  database.ref('/users/'+userdata.uid+'/courses/'+no).remove();
+  showMyCourses(userdata);
+}
+
+function addRetakeToDatabase(){
+  var term = document.getElementById('term8').value;
+  var course = document.getElementById('course8').value;
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var isAvail = snapshot.child('courses/'+course).exists();
+    var isterm = snapshot.child('term').val();
+
+    if(isterm === term){
+      alertMessage(type="success", "You can't add "+term+" term courses as retake!");
+    }else{
+      if(isAvail === true){
+        alertMessage(type="success", 'Course already exists in your retake list!');
+      }else{
+        var data = {};
+        data[course] = term;
+        database.ref('/users/'+userdata.uid+'/courses').update(data);
+        document.getElementById('addretakeform').style.display = 'none';
+        showMyCourses(userdata);
+        document.getElementById("retakeaddform8").reset();
+      }
+    }
   })
 }
 
@@ -648,25 +764,6 @@ function addResourceToDatabase(){
   })
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // COURSES
 
 function showAllCourses(){
@@ -677,6 +774,7 @@ function showAllCourses(){
       snapshot.forEach(function(childSnapshot){
         var no = snapshot.child(childSnapshot.key+'/no').val();
         var title = snapshot.child(childSnapshot.key+'/title').val();
+        var credit = snapshot.child(childSnapshot.key+'/credit').val();
         var type = snapshot.child(childSnapshot.key+'/type').val();
         var secA = snapshot.child(childSnapshot.key+'/secA/teacher').val();
         var secB = snapshot.child(childSnapshot.key+'/secB/teacher').val();
@@ -688,7 +786,8 @@ function showAllCourses(){
               <div class="class-left">
                 Course No: ${no.toUpperCase()} <br>
                 Course Title: ${title} <br>
-                Course Type: ${type}
+                Course Type: ${type} <br>
+                Course Credit: ${credit}
               </div>
               <div class="class-left">
                 Section A: ${secA} <br>
@@ -731,8 +830,8 @@ function showAddCourseFormData(){
   var xy = document.getElementById('secB4');
   xx.innerHTML = '';
   xy.innerHTML = '';
-  xx.innerHTML += '<option value="Select Instructor of Section A';
-  xy.innerHTML += '<option value="Select Instructor of Section B';
+  xx.innerHTML += '<option>Select Instructor of Section A</option>';
+  xy.innerHTML += '<option>Select Instructor of Section B</option>';
   database.ref('/teachers').orderByKey().once("value").then((snapshot) => {
     snapshot.forEach(function(childSnapshot){
       var teacher = snapshot.child(childSnapshot.key+'/name').val();
@@ -754,6 +853,7 @@ function addCourseToDatabase(){
   var secA = document.getElementById('secA4').value;
   var secB = document.getElementById('secB4').value;
   var syllabus = document.getElementById('syllabus4').value;
+  var credit = document.getElementById('credit4').value;
 
   database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
     var term = snapshot.child('term').val();
@@ -773,7 +873,8 @@ function addCourseToDatabase(){
           },
           title: title,
           type: type,
-          syllabus: syllabus
+          syllabus: syllabus,
+          credit: credit
         })
         document.getElementById('addcourseform').style.display = 'none';
         showAllCourses();
@@ -963,8 +1064,38 @@ function addTeacherToDatabase(){
 
 
 
+function listenForNotification(user){
+  database.ref('/users/'+user.uid+'/notifications').on('child_added', function (snapshot){
+    document.getElementById('notifications').innerHTML += `
+      <div class="notification">
+        <span class="closebtn" onclick="deleteNotification('${user.uid}','${childSnapshot.key}')">&times;</span>
+        <b>${snapshot.val().title}</b><br>${snapshot.val().content}
+      </div>
+    `
+  })
+}
 
+function showNotification(user){
+  document.getElementById('notifications').innerHTML = "";
+  database.ref('/users/'+user.uid+'/notifications').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var title = snapshot.child(childSnapshot.key+'/title').val();
+      var content = snapshot.child(childSnapshot.key+'/content').val();
 
+      document.getElementById('notifications').innerHTML += `
+        <div class="notification">
+          <span class="closebtn" onclick="deleteNotification('${user.uid}','${childSnapshot.key}')">&times;</span>
+          <b>${title}</b><br>${content}
+        </div>
+      `
+    })
+  })
+}
+
+function deleteNotification(uid,nid){
+  database.ref('/users/'+uid+'/notifications/'+nid).remove();
+  showNotification(userdata);
+}
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);

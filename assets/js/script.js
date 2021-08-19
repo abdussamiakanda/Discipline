@@ -19,6 +19,8 @@ function showDashboard(user){
   document.getElementById('fa_bars').innerHTML = `<i class="search-icon fa fa-bars" onclick="hideshowDashMenu()" aria-hidden="true"></i>`;
   showHeader(user);
   checkPage(user);
+  showNotification(user);
+  listenForNotification(user);
 }
 
 function showHeader(user){
@@ -260,6 +262,7 @@ function showCRPage(user,database){
 
 
 
+
 function registerCRactivity(database,title,content){
   var time = new Date();
   var date = time.toLocaleString('en-US',{hour:'numeric',minute:'numeric',hour12:true,day:'2-digit',month:"long",year:"numeric"});
@@ -269,7 +272,6 @@ function registerCRactivity(database,title,content){
     content: content
   })
 }
-
 
 var coll = document.getElementsByClassName("collapsible");
 var i;

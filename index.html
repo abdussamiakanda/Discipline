@@ -97,6 +97,36 @@
         <div class="academic-calendar hide" id="academic-calendar">
           Academic Calendar
         </div>
+        <!-- MY COURSES DONE -->
+        <div class="my-courses hide" id="my-courses">
+          <div class="my-courses-contents" id="my-courses-contents"></div>
+          <div class="my-course-title">
+            <div class="add-retake">
+              <i onclick="showAddRetakeForm()" class="add-retake-icon fa fa-plus" aria-hidden="true"> Add</i>
+            </div>
+            <div class="addretakeform hide" id="addretakeform">
+              <form onSubmit="return false;" id="retakeaddform8">
+                <label for="">Add Your Retake Courses</label>
+                <select id="term8" onchange="populate(this.id,'course8')" required>
+                  <option value="11">11 Term</option>
+                  <option value="12">12 Term</option>
+                  <option value="21">21 Term</option>
+                  <option value="22">22 Term</option>
+                  <option value="31">31 Term</option>
+                  <option value="32">32 Term</option>
+                  <option value="41">41 Term</option>
+                  <option value="42">42 Term</option>
+                </select>
+                <select id="course8" required></select>
+                <button type="button" class="reverse-btn" onclick="addRetakeToDatabase()">Add</button>
+              </form>
+            </div>
+            <div class="just-title">
+              Retake Courses
+            </div>
+          </div>
+          <div class="my-courses-contents" id="my-retake-contents"></div>
+        </div>
         <!-- TERM COURSES DONE -->
         <div class="term-courses hide" id="term-courses"></div>
         <!-- SINGLE COURSE -->
@@ -161,10 +191,6 @@
           <div class="user-data" id="user-data"></div>
           <div class="profile-form hide" id="profile_form"></div>
         </div>
-
-
-
-
         <!-- TEACHERS DONE-->
         <div class="teachers-page hide" id="teachers">
           <div class="teachers" id="teachers_items"></div>
@@ -217,16 +243,16 @@
                       <option value="A">Section-A</option>
                       <option value="B">Section-B</option>
                     </select>
-                    <input type="text" id="location3" placeholder="Room no or URL" required>
+                    <input type="text" id="location3" placeholder="Room no or URL.." required>
                     <input type="datetime-local" id="time3" required>
-                    <input type="text" id="topics3" placeholder="Topics (Optional)">
+                    <input type="text" id="topics3" placeholder="Topics.. (Optional)">
                     <button type="button" class="reverse-btn" onclick="addCTToDatabase()">Add</button>
                   </form>
                 </div>
               </div>
               <div class="allclasses" id="allcts"></div>
             </div>
-            <!-- RESOURCES PAGE -->
+            <!-- RESOURCES PAGE DONE -->
             <div id="allresourcepage">
               <div class="class-add">
                 <i onclick="showAddResourceForm()" class="add-icon fa fa-plus" aria-hidden="true"> Add New Resource</i>
@@ -258,6 +284,7 @@
                   <form onSubmit="return false;" id="courseaddform4">
                     <input type="text" id="courseno4" placeholder="Course No.. (e.g., PHY-1101)" required>
                     <input type="text" id="coursetitle4" placeholder="Course Title.. (e.g., Vector Analysis)" required>
+                    <input type="number" id="credit4" placeholder="Course credit.." required>
                     <select id="type4" required>
                       <option value="Theory">Theory</option>
                       <option value="Sessional">Sessional</option>
@@ -312,8 +339,6 @@
               </div>
               <div class="allclasses" id="allusers5"></div>
             </div>
-
-
           </div>
         </div>
 
@@ -325,29 +350,7 @@
     </section>
 
 
-    <section class='notifications hide'>
-      <div class="notification">
-        <span class="closebtn">&times;</span>
-        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-      </div>
-
-      <div class="notification success">
-        <span class="closebtn">&times;</span>
-        <strong>Success!</strong> Indicates a successful or positive action.
-      </div>
-
-      <div class="notification info">
-        <span class="closebtn">&times;</span>
-        <strong>Info!</strong> Indicates a neutral informative change or action.
-      </div>
-
-      <div class="notification warning">
-        <span class="closebtn">&times;</span>
-        <strong>Warning!</strong> Indicates a warning that might need attention.
-      </div>
-    </section>
-
-
+    <section class='notifications' id="notifications"></section>
 
     <section style="margin-top:30px;">
       <div class="alerts" id="alerts"></div>
