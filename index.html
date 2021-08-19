@@ -175,6 +175,7 @@
           <div class="cr-menu">
             <div type="button" onClick="showAllClassePage()" class="menubar">All Classes</div>
             <div type="button" onClick="showAllCTPage()" class="menubar">Class Assessments</div>
+            <div type="button" onClick="showAllResourcesPage()" class="menubar">Resources</div>
             <div type="button" onClick="showAllCoursePage()" class="menubar">All Courses</div>
             <div type="button" onClick="showAllTeacherPage()" class="menubar">Teachers & Staffs</div>
             <div type="button" onClick="showVerifyUserPage()" class="menubar">Verify Users</div>
@@ -224,6 +225,30 @@
                 </div>
               </div>
               <div class="allclasses" id="allcts"></div>
+            </div>
+            <!-- RESOURCES PAGE -->
+            <div id="allresourcepage">
+              <div class="class-add">
+                <i onclick="showAddResourceForm()" class="add-icon fa fa-plus" aria-hidden="true"> Add New Resource</i>
+                <div class="addclassform hide" id="addresourceform">
+                  <form onSubmit="return false;" id="resourceform1">
+                    <select id="type7" required>
+                      <option value="Reference Book">Reference Book</option>
+                      <option value="Sheet">Sheet</option>
+                      <option value="Lecture Note">Lecture Note</option>
+                    </select>
+                    <select id="courseno7" required></select>
+                    <select id="section7" required>
+                      <option value="A">Section-A</option>
+                      <option value="B">Section-B</option>
+                    </select>
+                    <input type="text" id="url7" placeholder="Enter file URL.." required>
+                    <input type="text" id="details7" placeholder="Details about the resource..">
+                    <button type="button" class="reverse-btn" onclick="addResourceToDatabase()">Add</button>
+                  </form>
+                </div>
+              </div>
+              <div class="allclasses" id="allresources"></div>
             </div>
             <!-- COURSE PAGE DONE -->
             <div id="allcoursepage">

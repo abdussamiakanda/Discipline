@@ -256,6 +256,7 @@ function showAllClassePage(){
   document.getElementById('allcoursepage').style.display = 'none';
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'none';
+  document.getElementById('allresourcepage').style.display = 'none';
   showAllClasses();
 }
 
@@ -265,6 +266,7 @@ function showAllCTPage(){
   document.getElementById('allcoursepage').style.display = 'none';
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'none';
+  document.getElementById('allresourcepage').style.display = 'none';
   showAllCTs();
 }
 
@@ -274,6 +276,7 @@ function showAllCoursePage(){
   document.getElementById('allcoursepage').style.display = 'block';
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'none';
+  document.getElementById('allresourcepage').style.display = 'none';
   showAllCourses();
 }
 
@@ -283,6 +286,7 @@ function showAllTeacherPage(){
   document.getElementById('allcoursepage').style.display = 'none';
   document.getElementById('allteacherpage').style.display = 'block';
   document.getElementById('allverifieduserpage').style.display = 'none';
+  document.getElementById('allresourcepage').style.display = 'none';
   showAllTeachers();
 }
 
@@ -292,7 +296,18 @@ function showVerifyUserPage(){
   document.getElementById('allcoursepage').style.display = 'none';
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'block';
+  document.getElementById('allresourcepage').style.display = 'none';
   showVerifyUsers();
+}
+
+function showAllResourcesPage(){
+  document.getElementById('allclasspage').style.display = 'none';
+  document.getElementById('allctpage').style.display = 'none';
+  document.getElementById('allcoursepage').style.display = 'none';
+  document.getElementById('allteacherpage').style.display = 'none';
+  document.getElementById('allverifieduserpage').style.display = 'none';
+  document.getElementById('allresourcepage').style.display = 'block';
+  showAllResources();
 }
 
 function showAllClasses(){
@@ -524,6 +539,133 @@ function addCTToDatabase(){
     })
   })
 }
+
+// RESOURCES
+
+function showAllResources(){
+  document.getElementById('allresources').innerHTML = ``;
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/resources').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var course = snapshot.child(childSnapshot.key+'/course').val();
+        var section = snapshot.child(childSnapshot.key+'/section').val();
+        var url = snapshot.child(childSnapshot.key+'/url').val();
+        var details = snapshot.child(childSnapshot.key+'/details').val();
+        var type = snapshot.child(childSnapshot.key+'/type').val();
+
+        var resourceEl = `
+          <div class="class-item">
+            <div class="class-details">
+              <div class="class-left">
+                <h4>Type: ${type}</h4>
+                Course No: ${course.toUpperCase()} <br>
+                Section: ${section}
+              </div>
+              <div class="class-left">
+                URL: ${url} <br>
+                Details: ${details}
+              </div>
+              <div class="dropdown">
+                <i onclick="hideshowDropMenu('res-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+                <div class="drop-menu" id="res-${childSnapshot.key}">
+                  <div class="drop-menu-item" onclick="deleteResource('${term}','${childSnapshot.key}')">Delete</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+        document.getElementById('allresources').innerHTML += resourceEl;
+      })
+    })
+  })
+}
+
+function deleteResource(term,id){
+  database.ref('/'+term+'-term/resources/'+id).remove();
+  registerCRactivity(database,userdata.displayName+' deleted a resource from the database','Term: '+term+'; ResourceId: '+id);
+  showAllResources();
+}
+
+function showAddResourceForm(){
+  let x = document.getElementById('addresourceform');
+  if(x.style.display === 'none'){
+    x.style.display = 'block';
+    showAddResourceFormData();
+  }else{
+    x.style.display = 'none';
+  }
+}
+
+function showAddResourceFormData(){
+  document.getElementById('courseno3').innerHTML = '';
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        let formEl = `<option value="${childSnapshot.key}">${childSnapshot.key.toUpperCase()}</option>`;
+        document.getElementById('courseno7').innerHTML += formEl;
+      })
+    })
+  })
+}
+
+function addResourceToDatabase(){
+  var type = document.getElementById('type7').value;
+  var course = document.getElementById('courseno7').value;
+  var section = document.getElementById('section7').value;
+  var url = document.getElementById('url7').value;
+  var details = document.getElementById('details7').value;
+  var date1 = new Date();
+  var resid = Date.parse(date1);
+  var date = date1.toLocaleString('en-BD',{hour:'numeric',minute:'numeric',hour12:true,day:'2-digit',month:"long",year:"numeric"});
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+    database.ref('/'+term+'-term/resources/'+resid).once("value").then((snapshot) => {
+      var isAvail = snapshot.child('section').exists();
+
+      if(isAvail === true){
+        alertMessage(type="success", 'File already exist!');
+      }else{
+        database.ref('/'+term+'-term/resources/'+resid).update({
+          type: type,
+          course: course,
+          section: section,
+          added: date,
+          url: url,
+          details: details
+        })
+        document.getElementById('addresourceform').style.display = 'none';
+        showAllResources();
+        document.getElementById("resourceform1").reset();
+        registerCRactivity(database,userdata.displayName+' added a new resource to database','Course No: '+course+'; Section: '+section+'; URL: '+url+'; Details: '+details);
+        // sendNotification(course,);
+        // sendEmail();
+      }
+
+    })
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // COURSES
 
