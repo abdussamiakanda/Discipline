@@ -21,7 +21,7 @@
   }
   a{
     text-decoration: none;
-    color: yellow;
+    color: #297F87;
   }
   a:hover {
     color: red;
@@ -342,6 +342,90 @@
     width: 100%;
     padding: 10px;
   }
+  .user-summary h4{
+    margin: 0;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--no4);
+  }
+  .summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px
+  }
+  .notice {
+      background: var(--no4);
+      color: black;
+      margin: 50px;
+      position: relative;
+      font-family:arial; font-size:18px; font-weight:bold; padding:10px; padding-top:10px;
+      -webkit-box-shadow: 0 1px 7px hsla(0,0%,0%,.2);
+         -moz-box-shadow: 0 1px 7px hsla(0,0%,0%,.2);
+              box-shadow: 0 1px 7px hsla(0,0%,0%,.2);
+  }
+
+  /* Corner Effect */
+  .notice:after,
+  .notice:before {
+      background: var(--no1);
+      content: '';
+      height: 50px;
+      position: absolute;
+      top: -25px;
+      width: 100px;
+      -webkit-box-shadow: 0 5px 10px -7px var(--no4);
+         -moz-box-shadow: 0 5px 10px -7px var(--no4);
+              box-shadow: 0 5px 10px -7px var(--no4);
+  }
+  .notice:after {
+      left: -50px;
+      -webkit-transform: rotate(-45deg);
+         -moz-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+           -o-transform: rotate(-45deg);
+              transform: rotate(-45deg);
+  }
+  .notice:before {
+      right: -50px;
+      -webkit-transform: rotate(45deg);
+         -moz-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+           -o-transform: rotate(45deg);
+              transform: rotate(45deg);
+  }
+  .notice-title {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  .pins {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .notice-pin{
+    max-width: 200px;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 0px 10px 10px 10px;
+    text-align: center;
+  }
+  .pin-icon{
+    font-size: 30px;
+    color: red;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /* MY COURSES */
 
@@ -436,18 +520,6 @@
     text-align: center;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   /* COURSES */
 
   .term-courses {
@@ -495,12 +567,6 @@
   .course-content {
     display: flex;
     justify-content: center;
-  }
-  .course-content a {
-    color: var(--no2);
-  }
-  .course-content a:hover {
-    color: var(--no3);
   }
   .section-a {
     width: 100%;

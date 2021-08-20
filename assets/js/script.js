@@ -388,9 +388,54 @@ function showCalendar(database,user){
   setTimeout(function(){ sortChildrenDivsById('calendar-body'); }, 1000);
 }
 
+function showWelcomeUser(database,user){
+  var fcredit = 0;
+  var tcredit = 0;
+  var rcredit = 0;
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var name = snapshot.child('name').val();
+    var id = snapshot.child('id').val();
+    var batch = snapshot.child('batch').val();
+    var year = snapshot.child('year').val();
+    var term = snapshot.child('term').val();
+    var contact = snapshot.child('contact').val();
+    var blood = snapshot.child('blood').val();
+
+    document.getElementById('welcome').innerHTML = "Welcome "+name;
+    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var credit = snapshot.child(childSnapshot.key+'/credit').val();
+        fcredit = fcredit + parseInt(credit);
+      })
+    })
+    database.ref('/users/'+user.uid+'/').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var credit = snapshot.child(childSnapshot.key+'/credit').val();
+        rcredit = rcredit + parseInt(credit);
+      })
+    })
+    setTimeout(function(){
+      rcredit = rcredit ? rcredit : 0;
+      tcredit = fcredit + rcredit;
+      document.getElementById('summary').innerHTML = `
+        <div>ID: ${id}<br>Batch: ${batch}<br>Term: ${term}</div>
+        <div>Year: ${year}<br>Blood: ${blood}</div>
+        <div>Total Credit: ${tcredit}<br>Fresh Credit: ${fcredit}<br>Retake Credit: ${rcredit}</div>
+      `
+    }, 1000);
+
+
+
+
+
+
+
+  })
+
+}
+
 function sortChildrenDivsById(parentId) {
     var parent = document.getElementById(parentId);
-    console.log(parent);
     var children = parent.getElementsByTagName("div");
     var ids = [], i, len;
     for (i = 0, len = children.length; i < len; i++) {
@@ -401,7 +446,6 @@ function sortChildrenDivsById(parentId) {
          parent.appendChild(document.getElementById("dv_" + ids[i]));
      }
 }
-
 
 
 

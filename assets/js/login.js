@@ -142,6 +142,7 @@ function showUserDashboard(user){
   document.getElementById('dashboard').classList.remove('hide');
   document.getElementById('calendar-body').innerHTML += "";
   showCalendar(database,user);
+  showWelcomeUser(database,user);
 }
 
 function showAcademicCalendar(user){
@@ -681,6 +682,7 @@ function showAllResources(){
         var url = snapshot.child(childSnapshot.key+'/url').val();
         var details = snapshot.child(childSnapshot.key+'/details').val();
         var type = snapshot.child(childSnapshot.key+'/type').val();
+        var added = snapshot.child(childSnapshot.key+'/added').val();
 
         var resourceEl = `
           <div class="class-item">
@@ -692,7 +694,8 @@ function showAllResources(){
               </div>
               <div class="class-left">
                 URL: ${url} <br>
-                Details: ${details}
+                Details: ${details} <br>
+                Added: ${added}
               </div>
               <div class="dropdown">
                 <i onclick="hideshowDropMenu('res-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -1084,7 +1087,7 @@ function sendVerifyEmail(id,email){
   	To : email,
   	From : "physicsdiscipline@gmail.com",
   	Subject : 'Hello from Discipline',
-  	Body : 'Hello user, <br> Welcome to the DISCIPLINE web app. You email address '+email+' has been verified to our website by your batch CR. Use your student id: '+id+' when you sign up to the website. <br> Click on this link to get started: https://abdussamiakanda.github.io/Discipline/ <br> Thank you.',
+  	Body : 'Hello user, <br> Welcome to the DISCIPLINE website. You email address '+email+' has been verified to our website by your batch CR. Use your student id: '+id+' when you sign up to the website. <br> Click on this link to get started: https://abdussamiakanda.github.io/Discipline/ <br> Thank you.',
   })
 }
 
