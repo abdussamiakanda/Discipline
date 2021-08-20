@@ -250,6 +250,70 @@ function showTeachers(user,database){
   })
 }
 
+function showAddCTMarksInfo(database,user,ct){
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+
+    database.ref('/'+term+'-term/cts/'+ct).once("value").then((snapshot) => {
+      var course = snapshot.child('course').val();
+      var section = snapshot.child('section').val();
+      var type = snapshot.child('type').val();
+      var time = snapshot.child('time').val();
+      var location = snapshot.child('location').val();
+      var topics = snapshot.child('topics').val();
+
+      database.ref('/'+term+'-term/courses/'+course).once("value").then((snap) => {
+        var title = snap.child('title').val();
+        var teacher = snap.child('sec'+section+'/teacher').val();
+
+        document.getElementById('add-ct-marks-info').innerHTML = `
+          <h5>Course No: ${course.toUpperCase()} (${section})</h5>
+          <h3>Course Title: ${title}</h3>
+          <div class="add-ct-marks-contents">
+            <div>Type: ${type}<br>Instructor: ${teacher}</div>
+            <div>Date: ${time}<br>Location: ${location}</div>
+          </div>
+        `
+      })
+    })
+  })
+}
+
+function showAddCTMarksForm(database,user,ct){
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+
+    database.ref('/'+term+'-term/cts/'+ct).once("value").then((snapshot) => {
+      var isAvail = snapshot.child('marks').exists();
+
+      if(isAvail === true){
+        database.ref('/'+term+'-term/cts/'+ct+'/marks').orderByKey().once("value").then((snapshot) => {
+          snapshot.forEach(function(childSnapshot){
+            console.log(childSnapshot.key)
+            if (childSnapshot.key === 'total'){
+              document.getElementById('totalmarks').innerHTML = `
+                <div class="form-flex">
+                  <div style="width:30%;">Total Marks:</div>
+                  <input type="number" id="tmarks" placeholder="Total Marks" value="${childSnapshot.val()}" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;" required>
+                </div>
+              `
+            } else {
+              document.getElementById('stumarks').innerHTML += `<div class="form-flex">
+                <input type="number" id="id" style="width:60%;" value="${childSnapshot.key}" placeholder="Student ID" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
+                <input type="number" id="mark" style="width:40%;" value="${childSnapshot.val()}" placeholder="Marks" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;" required>
+                <i class="edit-icon fa fa-plus-circle" aria-hidden="true"></i></div>
+              `
+            }
+
+          })
+        })
+      }
+    })
+  })
+}
+
+// hdfgjkjksdfhjkgsdfhghjdfgjdfhgkjdhfghdfhghdfghdhfghdshkjhdfghdshfgdsjhgf dfhgkjdfhsg
+
 function showCRPage(user,database){
   document.title = "CR Privileges";
   document.getElementById('header_middle').innerHTML = `<h4>CR Privileges</h4>`;
@@ -423,12 +487,6 @@ function showWelcomeUser(database,user){
         <div>Total Credit: ${tcredit}<br>Fresh Credit: ${fcredit}<br>Retake Credit: ${rcredit}</div>
       `
     }, 1000);
-
-
-
-
-
-
 
   })
 

@@ -127,6 +127,8 @@ function checkPage(user){
     showCRPage(user,database);
   } else if(page === 'my-courses'){
     showMyCourses(user);
+  } else if(page === 'add-ct-marks'){
+    showAddCTMarks(user);
   } else if(page === 'attendance'){
     // showAttendance(user);
   } else if(page === 'important-links'){
@@ -143,6 +145,14 @@ function showUserDashboard(user){
   document.getElementById('calendar-body').innerHTML += "";
   showCalendar(database,user);
   showWelcomeUser(database,user);
+}
+
+function showAddCTMarks(user){
+  document.title = "Add CT Marks";
+  document.getElementById('header_middle').innerHTML = `<h4>Add CT Marks</h4>`;
+  document.getElementById('add-ct-marks-page').classList.remove('hide');
+  showAddCTMarksInfo(database,user,pageid);
+  showAddCTMarksForm(database,user,pageid);
 }
 
 function showAcademicCalendar(user){
@@ -589,6 +599,7 @@ function showAllCTs(){
                 <div class="dropdown">
                   <i onclick="hideshowDropMenu('ct-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
                   <div class="drop-menu" id="ct-${childSnapshot.key}">
+                    <div class="drop-menu-item" onclick="changeURL('add-ct-marks','${childSnapshot.key}')">Add/Edit Marks</div>
                     <div class="drop-menu-item" onclick="deleteCT('${term}','${childSnapshot.key}')">Delete</div>
                   </div>
                 </div>

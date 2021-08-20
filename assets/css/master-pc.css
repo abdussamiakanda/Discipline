@@ -413,20 +413,6 @@
     color: red;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /* MY COURSES */
 
   .my-courses-contents {
@@ -843,6 +829,75 @@
     border-radius: 50%;
     margin: 5px 10px;
   }
+
+  /* ADD CT MARKS */
+
+  .add-ct-marks-page {
+    padding: 20px 10px;
+  }
+  .add-ct-marks-page h5,
+  .add-ct-marks-page h3 {
+    margin: 0;
+    text-align: center;
+  }
+  .add-ct-marks-contents {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+  }
+  .add-ct-marks-form {
+    max-width: 550px;
+    margin: 20px auto;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.7);
+  }
+  .editbutton {
+    border: 1px solid black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    font-family: 'Chakra Petch';
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: var(--no2);
+    color: var(--no4);
+    cursor: pointer;
+  }
+  .editbutton:hover {
+    background-color: var(--no4);
+    color: black;
+  }
+  .edit-icon {
+    font-size: 40px;
+    cursor: pointer;
+  }
+  .edit-icon:hover {
+    color: green;
+  }
+
+  .add-ct-marks-form input {
+    box-sizing:border-box;
+    width: 100%;
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--no4);
+    border-bottom: 2px solid var(--no4);
+    padding: 10px 15px;
+    font-size: 20px;
+    margin: 3px 5px;
+  }
+  .add-ct-marks-form input:hover {
+    background-color: rgba(0,0,0,0.4);
+  }
+  .add-ct-marks-form input:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0.4);
+  }
+
+
+
 
   /* USER PROFILE */
 
