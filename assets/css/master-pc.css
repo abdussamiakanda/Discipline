@@ -289,6 +289,59 @@
     color: black;
     background-color: var(--no4);
   }
+  .user-dashboard{
+    display:flex;
+  }
+  .calendar-list{
+    margin: 10px;
+    background-color: var(--no2);
+    border: 1px solid var(--no4);
+    border-radius: 5px;
+    min-width: 350px;
+    padding-bottom: 10px;
+  }
+  .calendar-head{
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    font-size: 22px;
+    border-bottom: 1px solid var(--no4);
+  }
+  .calendar-body{
+  }
+  .calendar-body p{
+    margin: 0;
+    padding: 10px;
+    border-top: 1px solid var(--no4);
+    border-bottom: 1px solid var(--no4);
+    text-align: right;
+  }
+  .event{
+    display:flex;
+    align-items: center;
+    text-align: left;
+    background-color: rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .event:hover{
+    background-color: rgba(0,0,0,0.3);
+  }
+  .event p{
+    margin: 0;
+    font-size: 18px;
+    border: none;
+    text-align: left;
+  }
+  .event i{
+    font-size: 15px;
+  }
+  .red{
+    color: red;
+  }
+  .user-summary{
+    width: 100%;
+    padding: 10px;
+  }
 
   /* MY COURSES */
 
@@ -625,6 +678,10 @@
     outline: none;
     background-color: rgba(0,0,0,0.4);
   }
+  .allclasses{
+    display: flex;
+    flex-direction: column-reverse;
+  }
   .class-item{
     margin: 5px 10px;
     padding: 10px;
@@ -715,7 +772,7 @@
     color: black;
   }
   .just-image {
-    width: 100px;
+    width: 80px;
     height: 100px;
     border-radius: 50%;
     margin: 5px 10px;

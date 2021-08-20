@@ -257,8 +257,150 @@ function showCRPage(user,database){
   showAllClassePage();
 }
 
+function showCalendar(database,user){
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
 
+    database.ref('/'+term+'-term/classes').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var date = Date.now();
+        if(date < childSnapshot.key){
+          var course = snapshot.child(childSnapshot.key+'/course').val();
+          var section = snapshot.child(childSnapshot.key+'/section').val();
+          var location = snapshot.child(childSnapshot.key+'/location').val();
+          var time2 = snapshot.child(childSnapshot.key+'/time').val();
+          var topics = snapshot.child(childSnapshot.key+'/topics').val();
+          var d = new Date(time2);
+          var time = d.toLocaleString('en-US',{hour:'numeric',minute:'numeric',hour12:true});
+          var date = d.toLocaleString('en-US',{day:'2-digit',month:"long",year:"numeric"});
 
+          document.getElementById('calendar-body').innerHTML += `
+            <div class="event" id="dv_${childSnapshot.key}">
+              <p>
+                ${time} <br>
+                ${date}
+              </p>
+              <i class="fa fa-circle" aria-hidden="true"></i>
+              <p>
+                Class<br>${course.toUpperCase()}(${section})
+              </p>
+            </div>
+          `
+        }
+      })
+    })
+    database.ref('/'+term+'-term/cts').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var date = Date.now();
+        if(date < childSnapshot.key){
+          var course = snapshot.child(childSnapshot.key+'/course').val();
+          var section = snapshot.child(childSnapshot.key+'/section').val();
+          var location = snapshot.child(childSnapshot.key+'/location').val();
+          var time2 = snapshot.child(childSnapshot.key+'/time').val();
+          var type = snapshot.child(childSnapshot.key+'/type').val();
+          var topics = snapshot.child(childSnapshot.key+'/topics').val();
+          var d = new Date(time2);
+          var time = d.toLocaleString('en-US',{hour:'numeric',minute:'numeric',hour12:true});
+          var date = d.toLocaleString('en-US',{day:'2-digit',month:"long",year:"numeric"});
+
+          document.getElementById('calendar-body').innerHTML += `
+            <div class="event" id="dv_${childSnapshot.key}">
+              <p>
+                ${time} <br>
+                ${date}
+              </p>
+              <i class="red fa fa-circle" aria-hidden="true"></i>
+              <p>
+                ${type}<br>${course.toUpperCase()}(${section})
+              </p>
+            </div>
+          `
+        }
+      })
+    })
+  })
+
+  database.ref('/users/'+user.uid+'/courses').orderByKey().once("value").then((snap) => {
+    snap.forEach(function(childSnap){
+      var term = childSnap.val();
+      var retakecourse = childSnap.key;
+
+      database.ref('/'+term+'-term/classes').orderByKey().once("value").then((snapshot) => {
+        snapshot.forEach(function(childSnapshot){
+          var course = snapshot.child(childSnapshot.key+'/course').val();
+          var date = Date.now();
+          if(date < childSnapshot.key && course === retakecourse){
+            var section = snapshot.child(childSnapshot.key+'/section').val();
+            var location = snapshot.child(childSnapshot.key+'/location').val();
+            var time2 = snapshot.child(childSnapshot.key+'/time').val();
+            var topics = snapshot.child(childSnapshot.key+'/topics').val();
+            var d = new Date(time2);
+            var time = d.toLocaleString('en-US',{hour:'numeric',minute:'numeric',hour12:true});
+            var date = d.toLocaleString('en-US',{day:'2-digit',month:"long",year:"numeric"});
+
+            document.getElementById('calendar-body').innerHTML += `
+              <div class="event" id="dv_${childSnapshot.key}">
+                <p>
+                  ${time} <br>
+                  ${date}
+                </p>
+                <i class="fa fa-circle" aria-hidden="true"></i>
+                <p>
+                  Class<br>${course.toUpperCase()}(${section})
+                </p>
+              </div>
+            `
+          }
+        })
+      })
+      database.ref('/'+term+'-term/cts').orderByKey().once("value").then((snapshot) => {
+        snapshot.forEach(function(childSnapshot){
+          var course = snapshot.child(childSnapshot.key+'/course').val();
+          var date = Date.now();
+
+          if(date < childSnapshot.key && course === retakecourse){
+            var section = snapshot.child(childSnapshot.key+'/section').val();
+            var location = snapshot.child(childSnapshot.key+'/location').val();
+            var time2 = snapshot.child(childSnapshot.key+'/time').val();
+            var type = snapshot.child(childSnapshot.key+'/type').val();
+            var topics = snapshot.child(childSnapshot.key+'/topics').val();
+            var d = new Date(time2);
+            var time = d.toLocaleString('en-US',{hour:'numeric',minute:'numeric',hour12:true});
+            var date = d.toLocaleString('en-US',{day:'2-digit',month:"long",year:"numeric"});
+
+            document.getElementById('calendar-body').innerHTML += `
+              <div class="event" id="dv_${childSnapshot.key}">
+                <p>
+                  ${time} <br>
+                  ${date}
+                </p>
+                <i class="red fa fa-circle" aria-hidden="true"></i>
+                <p>
+                  ${type}<br>${course.toUpperCase()}(${section})
+                </p>
+              </div>
+            `
+          }
+        })
+      })
+    })
+  })
+  setTimeout(function(){ sortChildrenDivsById('calendar-body'); }, 1000);
+}
+
+function sortChildrenDivsById(parentId) {
+    var parent = document.getElementById(parentId);
+    console.log(parent);
+    var children = parent.getElementsByTagName("div");
+    var ids = [], i, len;
+    for (i = 0, len = children.length; i < len; i++) {
+        ids.push(parseInt(children[i].id.replace(/^.*_/g, ""), 10));
+    }
+    ids.sort(function(a, b) {return(a - b);});
+     for (i = 0, len = ids.length; i < len; i++) {
+         parent.appendChild(document.getElementById("dv_" + ids[i]));
+     }
+}
 
 
 

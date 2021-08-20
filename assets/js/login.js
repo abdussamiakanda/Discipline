@@ -140,6 +140,8 @@ function showUserDashboard(user){
   document.title = "Dashboard";
   document.getElementById('header_middle').innerHTML = `<h4>Dashboard</h4>`;
   document.getElementById('dashboard').classList.remove('hide');
+  document.getElementById('calendar-body').innerHTML += "";
+  showCalendar(database,user);
 }
 
 function showAcademicCalendar(user){
@@ -435,6 +437,8 @@ function showAllResourcesPage(){
   document.getElementById('allresourcepage').style.display = 'block';
   showAllResources();
 }
+
+// ALL CLASSES
 
 function showAllClasses(){
   document.getElementById('allclasses').innerHTML = ``;
