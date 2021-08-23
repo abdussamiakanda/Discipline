@@ -1,13 +1,15 @@
 :root {
-  --no1: #082032;
-  --no2: #2C394B;
-  --no3: #334756;
-  --no4: #E0C097;
+  --no1: #02475E;
+  --no2: #687980;
+  --no3: #F3BDA1;
+  --no4: #FEFECC;
 }
 
 @media screen and (min-width: 45em){
   html{
     width:100%;
+    max-width: 1600px;
+    margin: 0px auto;
   }
   body{
     font-family: 'Chakra Petch';
@@ -17,6 +19,7 @@
     margin: 0;
     padding: 0;
     width:100%;
+    max-width: 1600px;
     margin-top: 65px;
   }
   a{
@@ -85,6 +88,7 @@
     position: fixed;
     background-color: var(--no1);
     top: 0;
+    max-width: 1600px;
     width: 100%;
     z-index: 10;
     border-bottom: 1px solid rgba(255,255,255,0.3);
