@@ -13,7 +13,9 @@ function GoogleLogin() {
   firebase.auth().signInWithPopup(provider).then(res=>{
     alertMessage(type="success", "You're logged in!")
     verifyUser(user);
-  }).catch((e)=>{})
+  }).catch((e)=>{
+    console.log(e);
+  })
 }
 
 function checkAuthState(){
