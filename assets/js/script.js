@@ -12,6 +12,7 @@ function verified(user){
   document.getElementById('signup_form').style.display="none";
   document.getElementById('verify_id').style.display="none";
   showDashboard(user);
+  showCRLink(user);
 }
 
 function showDashboard(user){
@@ -67,6 +68,17 @@ function changeURL(page,id){
 function cancelEditProfile(){
   document.getElementById('user-data').classList.remove('hide');
   document.getElementById('profile_form').classList.add('hide');
+}
+
+function showCRLink(user){
+  document.getElementById('cr-links').innerHTML = "";
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var type = snapshot.child('type').val();
+
+    if (type === 'cr' || type === 'acr' || type === 'admin'){
+      document.getElementById('cr-links').innerHTML = `<div onclick="changeURL('cr-privilege',null)" class='dash-item'>CR Privileges</div>`;
+    }
+  })
 }
 
 function showEditProfileData(user,database){
@@ -318,7 +330,7 @@ function showCRPage(user,database){
   document.title = "CR Privileges";
   document.getElementById('header_middle').innerHTML = `<h4>CR Privileges</h4>`;
   document.getElementById('cr-privilege').classList.remove('hide');
-  showAllClassePage();
+  checkUserIfCR();
 }
 
 function showCalendar(database,user){

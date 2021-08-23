@@ -87,7 +87,8 @@ document.getElementById("signup_btn").onclick = function (){
         type: 'general'
       })
       database.ref('/verified-users/'+id).update({
-        name: name
+        name: name,
+        id: userdata.uid
       })
       checkAuthState();
       alertMessage(type="success", "Welcome, "+userdata.displayName);
@@ -129,6 +130,8 @@ function checkPage(user){
     showMyCourses(user);
   } else if(page === 'add-ct-marks'){
     showAddCTMarks(user);
+  } else if(page === 'about'){
+    showAbout(user);
   } else if(page === 'attendance'){
     // showAttendance(user);
   } else if(page === 'important-links'){
@@ -159,6 +162,12 @@ function showAcademicCalendar(user){
   document.title = "Academic Calendar";
   document.getElementById('header_middle').innerHTML = `<h4>Academic Calendar</h4>`;
   document.getElementById('academic-calendar').classList.remove('hide');
+}
+
+function showAbout(user){
+  document.title = "About";
+  document.getElementById('header_middle').innerHTML = `<h4>About</h4>`;
+  document.getElementById('about-page').classList.remove('hide');
 }
 
 function showTermCourses(user){
@@ -389,13 +398,21 @@ function hideEditProfile(){
   document.getElementById('profile_form').classList.remove('hide');
 }
 
-function showAllClassePage(){
+function showAllClassesPage(){
   document.getElementById('allclasspage').style.display = 'block';
   document.getElementById('allctpage').style.display = 'none';
   document.getElementById('allcoursepage').style.display = 'none';
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
+  document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('menubar-class').classList.add('selected-menubar');
+  document.getElementById('menubar-res').classList.remove('selected-menubar');
+  document.getElementById('menubar-cr').classList.remove('selected-menubar');
+  document.getElementById('menubar-users').classList.remove('selected-menubar');
+  document.getElementById('menubar-teach').classList.remove('selected-menubar');
+  document.getElementById('menubar-course').classList.remove('selected-menubar');
+  document.getElementById('menubar-ct').classList.remove('selected-menubar');
   showAllClasses();
 }
 
@@ -406,6 +423,14 @@ function showAllCTPage(){
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
+  document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('menubar-ct').classList.add('selected-menubar');
+  document.getElementById('menubar-res').classList.remove('selected-menubar');
+  document.getElementById('menubar-cr').classList.remove('selected-menubar');
+  document.getElementById('menubar-users').classList.remove('selected-menubar');
+  document.getElementById('menubar-teach').classList.remove('selected-menubar');
+  document.getElementById('menubar-course').classList.remove('selected-menubar');
+  document.getElementById('menubar-class').classList.remove('selected-menubar');
   showAllCTs();
 }
 
@@ -416,6 +441,14 @@ function showAllCoursePage(){
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
+  document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('menubar-course').classList.add('selected-menubar');
+  document.getElementById('menubar-res').classList.remove('selected-menubar');
+  document.getElementById('menubar-cr').classList.remove('selected-menubar');
+  document.getElementById('menubar-users').classList.remove('selected-menubar');
+  document.getElementById('menubar-teach').classList.remove('selected-menubar');
+  document.getElementById('menubar-ct').classList.remove('selected-menubar');
+  document.getElementById('menubar-class').classList.remove('selected-menubar');
   showAllCourses();
 }
 
@@ -426,6 +459,14 @@ function showAllTeacherPage(){
   document.getElementById('allteacherpage').style.display = 'block';
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
+  document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('menubar-teach').classList.add('selected-menubar');
+  document.getElementById('menubar-res').classList.remove('selected-menubar');
+  document.getElementById('menubar-cr').classList.remove('selected-menubar');
+  document.getElementById('menubar-users').classList.remove('selected-menubar');
+  document.getElementById('menubar-course').classList.remove('selected-menubar');
+  document.getElementById('menubar-ct').classList.remove('selected-menubar');
+  document.getElementById('menubar-class').classList.remove('selected-menubar');
   showAllTeachers();
 }
 
@@ -436,7 +477,45 @@ function showVerifyUserPage(){
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'block';
   document.getElementById('allresourcepage').style.display = 'none';
+  document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('menubar-users').classList.add('selected-menubar');
+  document.getElementById('menubar-res').classList.remove('selected-menubar');
+  document.getElementById('menubar-cr').classList.remove('selected-menubar');
+  document.getElementById('menubar-teach').classList.remove('selected-menubar');
+  document.getElementById('menubar-course').classList.remove('selected-menubar');
+  document.getElementById('menubar-ct').classList.remove('selected-menubar');
+  document.getElementById('menubar-class').classList.remove('selected-menubar');
   showVerifyUsers();
+}
+
+function showCRshipPage(){
+  document.getElementById('allclasspage').style.display = 'none';
+  document.getElementById('allctpage').style.display = 'none';
+  document.getElementById('allcoursepage').style.display = 'none';
+  document.getElementById('allteacherpage').style.display = 'none';
+  document.getElementById('allverifieduserpage').style.display = 'none';
+  document.getElementById('allresourcepage').style.display = 'none';
+  document.getElementById('crship-page').style.display = 'block';
+  document.getElementById('menubar-cr').classList.add('selected-menubar');
+  document.getElementById('menubar-res').classList.remove('selected-menubar');
+  document.getElementById('menubar-ct').classList.remove('selected-menubar');
+  document.getElementById('menubar-users').classList.remove('selected-menubar');
+  document.getElementById('menubar-teach').classList.remove('selected-menubar');
+  document.getElementById('menubar-course').classList.remove('selected-menubar');
+  document.getElementById('menubar-class').classList.remove('selected-menubar');
+  showAddNewCRFormData();
+}
+
+function checkUserIfCR(){
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var type = snapshot.child('type').val();
+
+    if(type === 'cr' || type === 'acr' || type === 'admin'){
+      showAllClassesPage();
+    } else {
+      window.location.assign("./");
+    }
+  })
 }
 
 function showAllResourcesPage(){
@@ -446,6 +525,14 @@ function showAllResourcesPage(){
   document.getElementById('allteacherpage').style.display = 'none';
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'block';
+  document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('menubar-res').classList.add('selected-menubar');
+  document.getElementById('menubar-cr').classList.remove('selected-menubar');
+  document.getElementById('menubar-users').classList.remove('selected-menubar');
+  document.getElementById('menubar-teach').classList.remove('selected-menubar');
+  document.getElementById('menubar-course').classList.remove('selected-menubar');
+  document.getElementById('menubar-ct').classList.remove('selected-menubar');
+  document.getElementById('menubar-class').classList.remove('selected-menubar');
   showAllResources();
 }
 
@@ -555,8 +642,8 @@ function addClassToDatabase(){
         showAllClasses();
         document.getElementById("classaddform1").reset();
         registerCRactivity(database,userdata.displayName+' added a new class to database','Course No: '+course+'; Section: '+section+'; Time: '+date);
+        sendEmail(term,course,"New Class Added","You have a new class of "+course.toUpperCase()+" on "+date+" at location: "+location+". Visit the website or the app to see details.<br>Website: https://abdussamiakanda.github.io/Discipline/<br>Thank you.");
         // sendNotification(course,);
-        // sendEmail();
       }
     })
   })
@@ -673,8 +760,8 @@ function addCTToDatabase(){
         showAllCTs();
         document.getElementById("ctaddform1").reset();
         registerCRactivity(database,userdata.displayName+' added a new '+type+' to database','Course No: '+course+'; Section: '+section+'; Time: '+date);
+        sendEmail(term,course,"New "+type+" Added","You have a new "+type+" on "+course.toUpperCase()+" on "+date+" at location: "+location+". Visit the website or the app to see details.<br>Website: https://abdussamiakanda.github.io/Discipline/<br>Thank you.");
         // sendNotification(course,);
-        // sendEmail();
       }
     })
   })
@@ -783,7 +870,7 @@ function addResourceToDatabase(){
         document.getElementById("resourceform1").reset();
         registerCRactivity(database,userdata.displayName+' added a new resource to database','Course No: '+course+'; Section: '+section+'; URL: '+url+'; Details: '+details);
         // sendNotification(course,);
-        // sendEmail();
+        sendEmail(term,course,"New "+type+" Added","You have a new "+type+" for "+course.toUpperCase()+". Visit the website or the app to see details.<br>Website: https://abdussamiakanda.github.io/Discipline/<br>Thank you.");
       }
     })
   })
@@ -916,6 +1003,7 @@ function showVerifyUsers(){
   document.getElementById('allusers5').innerHTML = ``;
   database.ref('/verified-users').orderByKey().once("value").then((snapshot) => {
     snapshot.forEach(function(childSnapshot){
+      var uid = snapshot.child(childSnapshot.key+'/id').val();
       var email = snapshot.child(childSnapshot.key+'/email').val();
 
       var userEl = `
@@ -930,7 +1018,7 @@ function showVerifyUsers(){
             <div class="dropdown">
               <i onclick="hideshowDropMenu('sid-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
               <div class="drop-menu" id="sid-${childSnapshot.key}">
-                <div class="drop-menu-item" onclick="deleteID('${childSnapshot.key}')">Delete</div>
+                <div class="drop-menu-item" onclick="deleteID('${childSnapshot.key}','${uid}')">Delete</div>
               </div>
             </div>
           </div>
@@ -941,8 +1029,9 @@ function showVerifyUsers(){
   })
 }
 
-function deleteID(id){
+function deleteID(id,uid){
   database.ref('/verified-users/'+id).remove();
+  database.ref('/users/'+uid).remove();
   registerCRactivity(database,userdata.displayName+' deleted a verified user from the database','Id: '+id);
   showVerifyUsers();
 }
@@ -1076,19 +1165,85 @@ function addTeacherToDatabase(){
   })
 }
 
+function showAddNewCRFormData(){
+  var xx = document.getElementById('cr8');
+  xx.innerHTML = '';
+  database.ref('/users').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var name = snapshot.child(childSnapshot.key+'/name').val();
+      var type = snapshot.child(childSnapshot.key+'/type').val();
+
+      if(type === 'general'){
+        let formEl = `<option value="${childSnapshot.key}">${name}</option>`;
+        xx.innerHTML += formEl;
+      }
+    })
+  })
+}
+
+function addNewCRToDatabase(){
+  var id = document.getElementById('cr8').value;
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var type = snapshot.child('type').val();
+    console.log(type);
+    database.ref('/users/'+id).update({
+      type: type,
+    })
+    database.ref('/users/'+userdata.uid).update({
+      type: 'general',
+    })
+  })
+  alertMessage(type="success",'Thank you for your service!')
+  window.setTimeout(function(){ window.location.assign("./"); }, 1500);
+}
 
 
 
 
 
-// term,course,subject,body
-function sendEmail(){
-  Email.send({
-    SecureToken : "50196c1a-e09a-4139-830b-ac7e501fbefb",
-  	To : 'abdussamiakanda@gmail.com',
-  	From : "physicsdiscipline@gmail.com",
-  	Subject : 'ok',
-  	Body : 'Hello, <br> Welcome to the DISCIPLINE web app. You email address  has been verified to our website by your batch CR. Use your student id:  when you sign up to the website. Click: https://abdussamiakanda.github.io/Discipline/ <br> Thank you.',
+
+
+
+function sendEmail(term,course,subject,body){
+  database.ref('/users').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var uterm = snapshot.child(childSnapshot.key+'/term').val();
+      var email = snapshot.child(childSnapshot.key+'/email').val();
+      var name = snapshot.child(childSnapshot.key+'/name').val();
+
+      if(uterm === term){
+        Email.send({
+          SecureToken : "50196c1a-e09a-4139-830b-ac7e501fbefb",
+          To : email,
+          From : "physicsdiscipline@gmail.com",
+          Subject : subject,
+          Body : 'Hello '+name+',<br>'+body,
+        })
+      }
+    })
+  })
+  database.ref('/retake/'+course).orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var email = snapshot.child(childSnapshot.key).val();
+
+      database.ref('/users').orderByKey().once("value").then((snapshot) => {
+        snapshot.forEach(function(childSnapshot){
+          var uemail = snapshot.child(childSnapshot.key+'/email').val();
+          var name = snapshot.child(childSnapshot.key+'/name').val();
+
+          if(email === uemail){
+            Email.send({
+              SecureToken : "50196c1a-e09a-4139-830b-ac7e501fbefb",
+              To : email,
+              From : "physicsdiscipline@gmail.com",
+              Subject : subject,
+              Body : 'Hello '+name+',<br>'+body,
+            })
+          }
+        })
+      })
+    })
   })
 }
 

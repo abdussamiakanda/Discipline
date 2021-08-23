@@ -5,7 +5,7 @@
   --no4: #E0C097;
 }
 
-@media screen and (min-width: 37.5em){
+@media screen and (min-width: 45em){
   html{
     width:100%;
   }
@@ -21,10 +21,10 @@
   }
   a{
     text-decoration: none;
-    color: #297F87;
+    color: yellow;
   }
   a:hover {
-    color: red;
+    color: #297F87;
   }
   input,select{
     font-family: 'Chakra Petch';
@@ -666,6 +666,10 @@
     background-color: var(--no4);
     color: black;
   }
+  .selected-menubar{
+    background-color: var(--no4);
+    color: black;
+  }
   .class-add {
     padding: 10px;
     position: relative;
@@ -896,7 +900,41 @@
     background-color: rgba(0,0,0,0.4);
   }
 
+  /* CRSHIP PAGE */
 
+  .crship-page {
+    padding: 10px;
+    text-align: center;
+  }
+  .addnewcrform {
+    display: block;
+    border-radius: 5px;
+    background-color: var(--no1);
+    box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.5);
+    max-width: 500px;
+    margin: 20px auto;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+  }
+  .addnewcrform select {
+    box-sizing:border-box;
+    width: 100%;
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--no4);
+    border-bottom: 2px solid var(--no4);
+    padding: 10px 15px;
+    font-size: 20px;
+    margin: 3px 0px;
+  }
+  .addnewcrform select:hover {
+    background-color: rgba(0,0,0,0.4);
+  }
+  .addnewcrform select:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0.4);
+  }
 
 
   /* USER PROFILE */

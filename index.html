@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-    <script>
-      window.OneSignal = window.OneSignal || [];
-      OneSignal.push(function() {
-        OneSignal.init({
-          appId: "53dc17c7-5151-41d9-b430-3bd23b1b2280",
-        });
-      });
-    </script>
-    
     <meta charset="utf-8">
     <link rel="shortcut icon" href="./assets/image/icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -87,16 +77,17 @@
       <div class="dashboard-left" id="dashboard_left">
         <h3 class="dash-head">Academic</h3>
         <div onclick="changeURL('dashboard',null)" class="dash-item">Dashboard</div>
-        <div onclick="changeURL('academic-calendar',null)" class="dash-item">Academic Calendar</div>
         <div onclick="changeURL('my-courses',null)" class="dash-item">My Courses</div>
-        <div onclick="changeURL('attendance',null)" class="dash-item">Attendance</div>
+        <div onclick="changeURL('progress',null)" class="dash-item">My Progress</div>
+        <div onclick="changeURL('academic-calendar',null)" class="dash-item">Academic Calendar</div>
         <div onclick="changeURL('term-courses',null)" class="dash-item">Term Courses</div>
         <h3 class="dash-head">Info</h3>
         <div onclick="changeURL('teachers',null)" class="dash-item">Teachers & Staffs</div>
         <div onclick="changeURL('batches',null)" class="dash-item">Batches</div>
         <div onclick="changeURL('blood-bank',null)" class="dash-item">Blood Bank</div>
-        <div onclick="changeURL('cr-privilege',null)" class="dash-item">CR Privileges</div>
+        <div id="cr-links"></div>
         <div onclick="changeURL('important-links',null)" class="dash-item">Important Links</div>
+        <div onclick="changeURL('about',null)" class="dash-item">About</div>
       </div>
       <div class="dashboard-right" id="dashboard_right">
         <!-- USER DASHBOARD -->
@@ -123,6 +114,10 @@
         <!-- ACADEMIC CALENDAR -->
         <div class="academic-calendar hide" id="academic-calendar">
           Academic Calendar
+        </div>
+        <!-- ABOUT PAGE -->
+        <div class="academic-calendar hide" id="about-page">
+          About
         </div>
         <!-- MY COURSES DONE -->
         <div class="my-courses hide" id="my-courses">
@@ -255,12 +250,13 @@
         <!-- CR PRIVILEGES -->
         <div class="cr-page hide" id="cr-privilege">
           <div class="cr-menu">
-            <div type="button" onClick="showAllClassePage()" class="menubar">All Classes</div>
-            <div type="button" onClick="showAllCTPage()" class="menubar">Class Assessments</div>
-            <div type="button" onClick="showAllResourcesPage()" class="menubar">Resources</div>
-            <div type="button" onClick="showAllCoursePage()" class="menubar">All Courses</div>
-            <div type="button" onClick="showAllTeacherPage()" class="menubar">Teachers & Staffs</div>
-            <div type="button" onClick="showVerifyUserPage()" class="menubar">Verify Users</div>
+            <div type="button" onClick="showAllClassesPage()" class="menubar" id="menubar-class">Classes</div>
+            <div type="button" onClick="showAllCTPage()" class="menubar" id="menubar-ct">Assessments</div>
+            <div type="button" onClick="showAllResourcesPage()" class="menubar" id="menubar-res">Resources</div>
+            <div type="button" onClick="showAllCoursePage()" class="menubar" id="menubar-course">Courses</div>
+            <div type="button" onClick="showAllTeacherPage()" class="menubar" id="menubar-teach">Teachers & Staffs</div>
+            <div type="button" onClick="showVerifyUserPage()" class="menubar" id="menubar-users">Verify Users</div>
+            <div type="button" onClick="showCRshipPage()" class="menubar" id="menubar-cr">CR-ship</div>
           </div>
           <div class="cr-contents">
             <!-- CLASSES PAGE DONE -->
@@ -394,6 +390,20 @@
                 </div>
               </div>
               <div class="allcourses" id="allusers5"></div>
+            </div>
+            <!-- CRSHIP PAGE -->
+            <div id="crship-page">
+              <div class="crship-page">
+                Has your CR-ship ended?<br>It's time to pass on the mantle. Assign a new CR from your junior batch. <br><br>
+                But wait! Are still a CR for the next year?<br>We salute you warrior. Ask your immediate senior batch CR to assign you as a CR in this website. <br><br>
+                <strong>Note:</strong> You'll lose your CR privilege once you assign a new CR.
+                <div class="addnewcrform" id="addteacherform">
+                  <form onSubmit="return false;" id="teacheraddform6">
+                    <select id="cr8" required></select>
+                    <button type="button" class="reverse-btn" onclick="addNewCRToDatabase()">Assign New CR</button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>
