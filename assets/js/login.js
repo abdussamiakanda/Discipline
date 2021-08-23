@@ -132,13 +132,20 @@ function checkPage(user){
     showAddCTMarks(user);
   } else if(page === 'about'){
     showAbout(user);
-  } else if(page === 'attendance'){
-    // showAttendance(user);
+  } else if(page === 'progress'){
+    showMyProgressPage(user);
   } else if(page === 'important-links'){
     // showImportantLinks(user);
   }else{
     showUserDashboard(user);
   }
+}
+
+function showMyProgressPage(user){
+  document.title = "My Progress";
+  document.getElementById('header_middle').innerHTML = `<h4>My Progress</h4>`;
+  document.getElementById('my-progress').classList.remove('hide');
+  showMyProgressData(database,user);
 }
 
 function showUserDashboard(user){
@@ -155,7 +162,7 @@ function showAddCTMarks(user){
   document.getElementById('header_middle').innerHTML = `<h4>Add CT Marks</h4>`;
   document.getElementById('add-ct-marks-page').classList.remove('hide');
   showAddCTMarksInfo(database,user,pageid);
-  showAddCTMarksForm(database,user,pageid);
+  showAllUserCTMarksData(database,user,pageid);
 }
 
 function showAcademicCalendar(user){
@@ -1198,7 +1205,80 @@ function addNewCRToDatabase(){
   window.setTimeout(function(){ window.location.assign("./"); }, 1500);
 }
 
+function showAllUserCTMarksData(database,user,ct){
+  document.getElementById('allctmarks5').innerHTML = ``;
 
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+
+    database.ref('/'+term+'-term/cts/'+ct+'/marks').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        if(childSnapshot.key !== 'total'){
+          var marksEl = `
+            <div class="ct-item">
+              <div class="class-details">
+                <div class="mark">
+                  ID: ${childSnapshot.key} - ${childSnapshot.val()}
+                </div>
+                <div class="dropdown">
+                  <i onclick="hideshowDropMenu('markid-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+                  <div class="drop-menu" id="markid-${childSnapshot.key}">
+                    <div class="drop-menu-item" onclick="deleteMarks('${childSnapshot.key}','${term}',${ct})">Delete</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+          document.getElementById('allctmarks5').innerHTML += marksEl;
+        }
+      })
+    })
+  })
+}
+
+function deleteMarks(sid,term,ct){
+  database.ref('/'+term+'-term/cts/'+ct+'/marks/'+sid).remove();
+  showAllUserCTMarksData(database,userdata,ct);
+}
+
+function addUserCTMarkToDatabase(){
+  var id = document.getElementById('id10').value;
+  var mark = document.getElementById('mark10').value;
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+
+    database.ref('/'+term+'-term/cts/'+pageid+'/marks').once("value").then((snapshot) => {
+      var isAvail = snapshot.child(id).exists();
+
+      if(isAvail === true){
+        alertMessage(type="success", 'Mark already exists for this ID!');
+      }else{
+        var data = {};
+        data[id] = mark;
+        database.ref('/'+term+'-term/cts/'+pageid+'/marks').update(data);
+        document.getElementById("userctmarksaddform5").reset();
+        showAllUserCTMarksData(database,userdata,pageid);
+      }
+    })
+  })
+}
+
+function addTotalMarkToDatabase(){
+  var mark = document.getElementById('totalmark5').value;
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+
+    database.ref('/'+term+'-term/cts/'+pageid+'/marks').once("value").then((snapshot) => {
+      var data = {};
+      data['total'] = mark;
+      database.ref('/'+term+'-term/cts/'+pageid+'/marks').update(data);
+      document.getElementById("totmarkaddform5").reset();
+      showAddCTMarksInfo(database,userdata,pageid);
+    })
+  })
+}
 
 
 

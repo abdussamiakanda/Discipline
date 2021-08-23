@@ -115,6 +115,10 @@
         <div class="academic-calendar hide" id="academic-calendar">
           Academic Calendar
         </div>
+        <!-- MY PROGRESS -->
+        <div class="academic-calendar hide" id="my-progress">
+          Progress
+        </div>
         <!-- ABOUT PAGE -->
         <div class="academic-calendar hide" id="about-page">
           About
@@ -160,16 +164,24 @@
         <!-- ADD CT MARKS -->
         <div class="add-ct-marks-page hide" id="add-ct-marks-page">
           <div id="add-ct-marks-info"></div>
-          <div class="add-ct-marks-form" id="add-ct-marks-form">
-            <form onSubmit="return false;" id="ctmarkaddform5">
-              <div id="totalmarks"></div>
-              <div id="stumarks"></div>
-
-              <button type="button" class="editbutton" onclick="addUserToDatabase()">Update Marks</button>
-            </form>
+          <div class="class-add">
+            <div class="addmarkformdiv" id="adduserctmarkform">
+              <form onSubmit="return false;" id="totmarkaddform5">
+                <div class="form-flex">
+                  <input type="number" id="totalmark5" placeholder="Total Marks" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;" required>
+                  <button type="button" class="just-btn" onclick="addTotalMarkToDatabase()">Update</button>
+                </div>
+              </form>
+              <form onSubmit="return false;" id="userctmarksaddform5">
+                <div class="form-flex">
+                  <input type="number" id="id10" placeholder="Student ID" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
+                  <input type="number" id="mark10" style="width:50%;" placeholder="Marks" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;" required>
+                  <button type="button" class="just-btn" onclick="addUserCTMarkToDatabase()">Add</button>
+                </div>
+              </form>
+            </div>
           </div>
-
-
+          <div class="allctmarks" id="allctmarks5"></div>
         </div>
 
 
