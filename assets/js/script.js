@@ -100,7 +100,6 @@ function showEditProfileData(user,database){
     for (let x=0; x < years.length; x++){
       if (year === years[x]){
         isYear[x] = "selected";
-        console.log(x,isYear[x])
       }else{
         isYear[x] = null;
       }
@@ -108,7 +107,6 @@ function showEditProfileData(user,database){
     for (let y=0; y < terms.length; y++){
       if (term === terms[y]){
         isTerm[y] = "selected";
-        console.log(y,isTerm[y])
       }else{
         isTerm[y] = null;
       }
@@ -116,7 +114,6 @@ function showEditProfileData(user,database){
     for (let z=0; z < bloods.length; z++){
       if (blood === bloods[z]){
         isBlood[z] = "selected";
-        console.log(z,isBlood[z])
       }else{
         isBlood[z] = null;
       }
