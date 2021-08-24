@@ -10,3 +10,16 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
+
+const messaging = firebase.messaging();
+messaging
+    .requestPermission()
+    .then(function () {
+        console.log("Notification permission granted.");
+        return messaging.getToken()
+    })
+    .then(function(token) {
+    })
+    .catch(function (err) {
+        console.log("Unable to get permission to notify.", err);
+    });
