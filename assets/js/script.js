@@ -27,7 +27,7 @@ function showDashboard(user){
 function showHeader(user){
   document.getElementById('header_right').innerHTML = `
     <div onclick="changeURL('search',null)"><i class="search-icon fa fa-search" aria-hidden="true"></i></div>
-    <div>${user.displayName}</div>
+    <div class="usernameshow">${user.displayName}</div>
     <div class="dropdown">
       <div class="user-image-div" onclick="hideshowDropMenu('dropdown-menu')"><img class="header-image" src="${user.photoURL}" alt=""></div>
       <div class="dropdown-menu" id="dropdown-menu">
@@ -431,7 +431,170 @@ function showCalendar(database,user){
 }
 
 function showMyProgressData(database,user){
-  console.log('p');
+  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+    var term = snapshot.child('term').val();
+
+    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        var classCountA = 0;
+        var ctCountA = 0;
+        var assignCountA = 0;
+        var vivaCountA = 0;
+        var classCountB = 0;
+        var ctCountB = 0;
+        var assignCountB = 0;
+        var vivaCountB = 0;
+        var attenA = 0;
+        var attenB = 0;
+        var section = null;
+
+        database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+          var sid = snapshot.child('/id').val();
+
+          database.ref('/'+term+'-term/classes').orderByKey().once("value").then((snap) => {
+            snap.forEach(function(childSnap){
+              var course = snap.child(childSnap.key+'/course').val();
+              var present = snap.child(childSnap.key+'/attendance/'+sid).val();
+
+              if (childSnapshot.key === course && section === "A"){
+                classCountA++;
+              } else if (childSnapshot.key === course && section === "B"){
+                classCountB++;
+              }
+              if(ucourse === course && section === "A" && present === "true"){
+                attenA++;
+              } else if(ucourse === course && section === "B" && present === "true"){
+                attenB++;
+              }
+            })
+          })
+        })
+        database.ref('/'+term+'-term/cts').orderByKey().once("value").then((snap) => {
+          snap.forEach(function(childSnap){
+            var type = snap.child(childSnap.key+'/type').val();
+            var course = snap.child(childSnap.key+'/course').val();
+            section = snap.child(childSnap.key+'/section').val();
+
+            if (childSnapshot.key === course && type === "Class Test" && section === "A"){
+              ctCountA++;
+            } else if (childSnapshot.key === course && type === "Assignment" && section === "A"){
+              assignCountA++;
+            } else if (childSnapshot.key === course && type === "Viva" && section === "A"){
+              vivaCountA++;
+            } else if (childSnapshot.key === course && type === "Class Test" && section === "B"){
+              ctCountB++;
+            } else if (childSnapshot.key === course && type === "Assignment" && section === "B"){
+              assignCountB++;
+            } else if (childSnapshot.key === course && type === "Viva" && section === "B"){
+              vivaCountB++;
+            }
+          })
+        })
+        setTimeout(function(){
+          document.getElementById('datas').innerHTML += `
+            <tr>
+              <td rowspan="2">${childSnapshot.key.toUpperCase()}</td>
+              <td>A</td>
+              <td>${attenA}/${classCountA}</td>
+              <td>${ctCountA}</td>
+              <td>${assignCountA}</td>
+              <td>${vivaCountA}</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>${attenB}/${classCountB}</td>
+              <td>${ctCountB}</td>
+              <td>${assignCountB}</td>
+              <td>${vivaCountB}</td>
+            </tr>
+          `
+        }, 1000);
+      })
+    })
+  })
+  showMyRetakeProgressData(database,user);
+}
+
+function showMyRetakeProgressData(database,user){
+  database.ref('/users/'+user.uid+'/courses').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var classCountA = 0;
+      var ctCountA = 0;
+      var assignCountA = 0;
+      var vivaCountA = 0;
+      var classCountB = 0;
+      var ctCountB = 0;
+      var assignCountB = 0;
+      var vivaCountB = 0;
+      var attenA = 0;
+      var attenB = 0;
+      var section = null;
+      var ucourse = childSnapshot.key;
+      var uterm = childSnapshot.val();
+
+      database.ref('/users/'+user.uid).once("value").then((snapshot) => {
+        var sid = snapshot.child('/id').val();
+
+        database.ref('/'+uterm+'-term/classes').orderByKey().once("value").then((snap) => {
+          snap.forEach(function(childSnap){
+            var course = snap.child(childSnap.key+'/course').val();
+            var section = snap.child(childSnap.key+'/section').val();
+            var present = snap.child(childSnap.key+'/attendance/'+sid).val();
+
+            if (ucourse === course && section === "A"){
+              classCountA++;
+            } else if (ucourse === course && section === "B"){
+              classCountB++;
+            }
+            if(ucourse === course && section === "A" && present === "true"){
+              attenA++;
+            } else if(ucourse === course && section === "B" && present === "true"){
+              attenB++;
+            }
+          })
+        })
+      })
+      database.ref('/'+uterm+'-term/cts').orderByKey().once("value").then((snap) => {
+        snap.forEach(function(childSnap){
+          var type = snap.child(childSnap.key+'/type').val();
+          var course = snap.child(childSnap.key+'/course').val();
+
+          if (ucourse === course && type === "Class Test" && section === "A"){
+            ctCountA++;
+          } else if (ucourse === course && type === "Assignment" && section === "A"){
+            assignCountA++;
+          } else if (ucourse === course && type === "Viva" && section === "A"){
+            vivaCountA++;
+          } else if (ucourse === course && type === "Class Test" && section === "B"){
+            ctCountB++;
+          } else if (ucourse === course && type === "Assignment" && section === "B"){
+            assignCountB++;
+          } else if (ucourse === course && type === "Viva" && section === "B"){
+            vivaCountB++;
+          }
+        })
+      })
+      setTimeout(function(){
+        document.getElementById('datas').innerHTML += `
+          <tr class="retake-data">
+            <td rowspan="2">${childSnapshot.key.toUpperCase()}</td>
+            <td>A</td>
+            <td>${attenA}/${classCountA}</td>
+            <td>${ctCountA}</td>
+            <td>${assignCountA}</td>
+            <td>${vivaCountA}</td>
+          </tr>
+          <tr class="retake-data">
+            <td>B</td>
+            <td>${attenB}/${classCountB}</td>
+            <td>${ctCountB}</td>
+            <td>${assignCountB}</td>
+            <td>${vivaCountB}</td>
+          </tr>
+        `
+      }, 1000);
+    })
+  })
 }
 
 function showWelcomeUser(database,user){
@@ -486,6 +649,44 @@ function sortChildrenDivsById(parentId) {
          parent.appendChild(document.getElementById("dv_" + ids[i]));
      }
 }
+
+function closeBigNotice(){
+  document.getElementById('notice-view').style.display = 'none';
+}
+
+function showBatchesData(database,user){
+  document.getElementById('cr-all').innerHTML = '';
+  database.ref('/users').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var batch = snapshot.child(childSnapshot.key+'/batch').val();
+      var id = snapshot.child(childSnapshot.key+'/id').val();
+      var name = snapshot.child(childSnapshot.key+'/name').val();
+      var contact = snapshot.child(childSnapshot.key+'/contact').val();
+      var email = snapshot.child(childSnapshot.key+'/email').val();
+      var type = snapshot.child(childSnapshot.key+'/type').val();
+      var image = snapshot.child(childSnapshot.key+'/image').val();
+
+      if (type === "cr"){
+        document.getElementById('cr-all').innerHTML += `
+          <div class="cr-item">
+            <div class="cr10"><img src="${image}" alt=""></div>
+            <div class="cr11">
+              <h4>${name}</h4>
+              <p>ID: ${id}<br>Batch: 18</p>
+              <div style="text-align:center;">
+                <a href="tel:${contact}"><i class="add-icon2 fa fa-phone" aria-hidden="true"></i></a><a href="mailto:${email}"><i class="add-icon2 fa fa-envelope-o" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    })
+  })
+}
+
+
+
+
 
 
 

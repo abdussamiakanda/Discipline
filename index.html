@@ -79,23 +79,20 @@
         <div onclick="changeURL('dashboard',null)" class="dash-item">Dashboard</div>
         <div onclick="changeURL('my-courses',null)" class="dash-item">My Courses</div>
         <div onclick="changeURL('progress',null)" class="dash-item">My Progress</div>
+        <div onclick="changeURL('notice-board',null)" class="dash-item">Notice Board</div>
         <div onclick="changeURL('academic-calendar',null)" class="dash-item">Academic Calendar</div>
-        <div onclick="changeURL('term-courses',null)" class="dash-item">Term Courses</div>
         <h3 class="dash-head">Info</h3>
         <div onclick="changeURL('teachers',null)" class="dash-item">Teachers & Staffs</div>
         <div onclick="changeURL('batches',null)" class="dash-item">Batches</div>
-        <div onclick="changeURL('blood-bank',null)" class="dash-item">Blood Bank</div>
+        <!-- <div onclick="changeURL('blood-bank',null)" class="dash-item">Blood Bank</div> -->
         <div id="cr-links"></div>
+        <div onclick="changeURL('chat',null)" class="dash-item">Public Chat</div>
         <div onclick="changeURL('important-links',null)" class="dash-item">Important Links</div>
         <div onclick="changeURL('about',null)" class="dash-item">About</div>
       </div>
       <div class="dashboard-right" id="dashboard_right">
         <!-- USER DASHBOARD -->
         <div class="user-dashboard hide" id="dashboard">
-          <div class="calendar-list" id="calendar-list">
-            <div class="calendar-head">Your Calendar</div>
-            <div class="calendar-body" id="calendar-body"></div>
-          </div>
           <div class="user-summary">
             <h4 id="welcome"></h4>
             <div class="summary" id="summary"></div>
@@ -110,18 +107,48 @@
               </div>
             </div>
           </div>
+          <div class="calendar-list" id="calendar-list">
+            <div class="calendar-head">Your Calendar</div>
+            <div class="calendar-body" id="calendar-body"></div>
+          </div>
         </div>
         <!-- ACADEMIC CALENDAR -->
         <div class="academic-calendar hide" id="academic-calendar">
-          Academic Calendar
+          <p style="text-align:center;">To be updated..</p>
+        </div>
+        <!-- PUBLIC CHAT -->
+        <div class="hide" id="public-chat">
+          <div class="messages">
+            <div class="message-contents" id="message_contents">
+
+            </div>
+            <form class="formaa" id="msg_form">
+              <input type="text" id="chat_msg" class="chat-input" value="" placeholder="Enter message.." autocomplete="off">
+              <button type="reset" id="send_message" class="submit-msg" value="Reset"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            </form>
+          </div>
         </div>
         <!-- MY PROGRESS -->
         <div class="academic-calendar hide" id="my-progress">
-          Progress
+          <table class="mystylishtable" id="datas">
+            <tr>
+              <th>Course No</th>
+              <th>Section</th>
+              <th>Attendance</th>
+              <th>CTs</th>
+              <th>Assignments</th>
+              <th>Viva</th>
+            </tr>
+          </table>
         </div>
         <!-- ABOUT PAGE -->
         <div class="academic-calendar hide" id="about-page">
           About
+        </div>
+        <!-- BATCHES PAGE -->
+        <div class="academic-calendar hide" id="batches-page">
+          <h3 style="text-align:center;">Class Representatives</h3>
+          <div class="cr-all" id="cr-all"></div>
         </div>
         <!-- MY COURSES DONE -->
         <div class="my-courses hide" id="my-courses">
@@ -153,15 +180,13 @@
           </div>
           <div class="my-courses-contents" id="my-retake-contents"></div>
         </div>
-        <!-- TERM COURSES DONE -->
-        <div class="term-courses hide" id="term-courses"></div>
-
-
-
-
-
-
-        <!-- ADD CT MARKS -->
+        <!-- NOTICE BOARD DONE -->
+        <div class="term-courses hide" id="notice-board"></div>
+        <!-- IMPORTANT LINKS -->
+        <div class="term-courses hide" id="important-links">
+          ghj
+        </div>
+        <!-- ADD CT MARKS DONE -->
         <div class="add-ct-marks-page hide" id="add-ct-marks-page">
           <div id="add-ct-marks-info"></div>
           <div class="class-add">
@@ -421,6 +446,15 @@
         </div>
 
         <!-- NOTHING BELOW IT -->
+      </div>
+    </section>
+
+
+
+    <section class="notice-view" id="notice-view">
+      <div class="big-notice">
+        <span class="cross" onclick="closeBigNotice()"><i class="fa fa-times" aria-hidden="true"></i></span>
+        <div id="notice-content" class="notice-content"></div>
       </div>
     </section>
 

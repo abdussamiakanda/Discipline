@@ -84,6 +84,7 @@ document.getElementById("signup_btn").onclick = function (){
         contact: contact,
         blood: blood_group,
         email: userdata.email,
+        image: userdata.photoURL,
         type: 'general'
       })
       database.ref('/verified-users/'+id).update({
@@ -116,8 +117,8 @@ function checkPage(user){
     showUserDashboard(user);
   } else if(page === 'academic-calendar'){
     showAcademicCalendar(user);
-  } else if(page === 'term-courses'){
-    showTermCourses(user);
+  } else if(page === 'notice-board'){
+    showNoticeBoard(user);
   } else if(page === 'course'){
     showCourseDetail(user);
   } else if(page === 'profile'){
@@ -134,11 +135,22 @@ function checkPage(user){
     showAbout(user);
   } else if(page === 'progress'){
     showMyProgressPage(user);
+  } else if(page === 'batches'){
+    showBatchesPage(user);
   } else if(page === 'important-links'){
-    // showImportantLinks(user);
-  }else{
+    showImportantLinks(user);
+  } else if(page === 'chat'){
+    showChatPage(user);
+  } else {
     showUserDashboard(user);
   }
+}
+
+function showChatPage(user){
+  document.title = "Public Chat";
+  document.getElementById('header_middle').innerHTML = `<h4>Public Chat</h4>`;
+  document.getElementById('public-chat').classList.remove('hide');
+  listenForMsg(user);
 }
 
 function showMyProgressPage(user){
@@ -148,6 +160,12 @@ function showMyProgressPage(user){
   showMyProgressData(database,user);
 }
 
+function showImportantLinks(user){
+  document.title = "Important Links";
+  document.getElementById('header_middle').innerHTML = `<h4>Important Links</h4>`;
+  document.getElementById('important-links').classList.remove('hide');
+}
+
 function showUserDashboard(user){
   document.title = "Dashboard";
   document.getElementById('header_middle').innerHTML = `<h4>Dashboard</h4>`;
@@ -155,6 +173,13 @@ function showUserDashboard(user){
   document.getElementById('calendar-body').innerHTML += "";
   showCalendar(database,user);
   showWelcomeUser(database,user);
+}
+
+function showBatchesPage(user){
+  document.title = "Batches";
+  document.getElementById('header_middle').innerHTML = `<h4>Batches</h4>`;
+  document.getElementById('batches-page').classList.remove('hide');
+  showBatchesData(database,user);
 }
 
 function showAddCTMarks(user){
@@ -177,35 +202,55 @@ function showAbout(user){
   document.getElementById('about-page').classList.remove('hide');
 }
 
-function showTermCourses(user){
-  document.title = "Term Courses";
-  document.getElementById('term-courses').classList.remove('hide');
-  database.ref('/users/'+user.uid).once("value").then((snapshot) => {
-    var term = snapshot.child('term').val();
-    document.getElementById('header_middle').innerHTML = `<h4>${term} Term Courses</h4>`;
+function showNoticeBoard(user){
+  document.title = "Notice Board";
+  document.getElementById('header_middle').innerHTML = `<h4>Notice Board</h4>`;
+  document.getElementById('notice-board').classList.remove('hide');
 
-    database.ref('/'+term+'-term/courses').orderByKey().once("value").then((snapshot) => {
-      snapshot.forEach(function(childSnapshot){
-        database.ref('/'+term+'-term/courses/'+childSnapshot.key).once("value").then((snapshot) => {
-          var no = snapshot.child('no').val().toUpperCase();
-          var title = snapshot.child('title').val();
-          var type = snapshot.child('type').val();
-          var secA = snapshot.child('secA/teacher').val();
-          var secB = snapshot.child('secB/teacher').val();
+  database.ref('/notices').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var title = snapshot.child(childSnapshot.key+'/title').val();
+      var content = snapshot.child(childSnapshot.key+'/content').val();
+      var type = snapshot.child(childSnapshot.key+'/type').val();
+      var time = snapshot.child(childSnapshot.key+'/time').val();
 
-          var courseDiv = document.getElementById('term-courses');
-          var courseEl = `
-            <div class="course-item" onclick="changeURL('course','${no}')">
-              <h6>${no} (${type})</h6>
-              <h4>${title}</h4> <hr>
-              Section A: ${secA} <br>
-              Section B: ${secB}
-            </div>
-          `
-          courseDiv.innerHTML += courseEl;
-        })
-      })
+      var courseDiv = document.getElementById('notice-board');
+      var courseEl = `
+        <div class="course-item" onclick="bigView('${childSnapshot.key}')">
+          <h6>${time}</h6> <hr>
+          <h4>${title}</h4>
+        </div>
+      `
+      courseDiv.innerHTML += courseEl;
     })
+  })
+}
+
+function bigView(notid){
+  document.getElementById('notice-content').innerHTML = ``;
+  document.getElementById('notice-view').style.display = 'block';
+  database.ref('/notices/'+notid).once("value").then((snapshot) => {
+    var title = snapshot.child('title').val();
+    var content = snapshot.child('content').val();
+    var type = snapshot.child('type').val();
+    var time = snapshot.child('time').val();
+
+    var courseEl = ``;
+    if(type === 'text'){
+      courseEl = `
+        <h5>${time}</h5>
+        <h3>${title}</h3> <hr>
+        <p>${content}</P>
+      `
+    }else if(type === 'image') {
+      courseEl = `
+        <h5>${time}</h5>
+        <h3>${title}</h3> <hr>
+        <img src="${content}" alt="">
+      `
+    }
+
+    document.getElementById('notice-content').innerHTML += courseEl;
   })
 }
 
@@ -1010,18 +1055,27 @@ function showVerifyUsers(){
   document.getElementById('allusers5').innerHTML = ``;
   database.ref('/verified-users').orderByKey().once("value").then((snapshot) => {
     snapshot.forEach(function(childSnapshot){
+      var text = null;
       var uid = snapshot.child(childSnapshot.key+'/id').val();
       var email = snapshot.child(childSnapshot.key+'/email').val();
+      var name = snapshot.child(childSnapshot.key+'/name').exists();
+
+      if(name === true){
+        text = "Registered"
+      } else {
+        text = "Pending"
+      }
 
       var userEl = `
         <div class="class-item">
           <div class="class-details">
-            <div style="width:30%">
+            <div style="width:50%;">
               ID: ${childSnapshot.key}
             </div>
             <div class="class-left">
               Email: ${email}
             </div>
+            <div class="class-left">${text}</div>
             <div class="dropdown">
               <i onclick="hideshowDropMenu('sid-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
               <div class="drop-menu" id="sid-${childSnapshot.key}">
@@ -1279,6 +1333,75 @@ function addTotalMarkToDatabase(){
     })
   })
 }
+
+var form = document.getElementById("msg_form");
+function handleForm(event) {
+  event.preventDefault();
+  var msg = document.getElementById('chat_msg');
+  sendPublicMessage(msg.value);
+  msg.value = '';
+}
+form.addEventListener('submit', handleForm);
+
+document.getElementById("send_message").onclick = function (){
+  var msg = document.getElementById('chat_msg')
+  sendPublicMessage(msg.value);
+  msg.value = '';
+  return false;
+}
+
+function sendPublicMessage(msg){
+  var date = new Date();
+
+  database.ref('/users/'+userdata.uid).once("value").then((snapshot) => {
+    var name = snapshot.child('name').val();
+    var id = snapshot.child('id').val();
+    database.ref('/messages/'+Date.now()).update({
+      sender: name,
+      id: id,
+      msg: msg,
+      time: date.toLocaleString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric'}) + ", " + date.getDate() + ' ' + locale.month[date.getMonth()] + ' ' + date.getFullYear()
+    })
+  })
+}
+
+locale = {
+  month: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+};
+
+function listenForMsg(user){
+  document.getElementById("message_contents").innerHTML = "";
+
+  database.ref('/messages').on('child_added', function (snapshot){
+    var sender = snapshot.val().sender
+    if(sender === user.displayName){
+      var html = ""
+      html = `
+      <div class="you">
+        <div class="your-chat-content">
+          ${snapshot.val().msg}<span>${snapshot.val().time}</span>
+        </div>
+      </div>
+      `
+    }else{
+      var html = ""
+      html = `
+      <div class="friend">
+        <div class="chat-content">
+          <p>${snapshot.val().sender} (${snapshot.val().id})</p>
+          ${snapshot.val().msg}<span>${snapshot.val().time}</span>
+        </div>
+      </div>
+      `
+    }
+    document.getElementById("message_contents").innerHTML += html;
+    var element = document.getElementById("message_contents");
+    element.scrollTop = element.scrollHeight;
+  })
+}
+
+
+
 
 
 
