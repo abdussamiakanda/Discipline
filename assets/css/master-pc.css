@@ -900,7 +900,7 @@
   .addclassform {
     display: block;
     position: absolute;
-    top: 70px;
+    top: 50px;
     z-index: 5;
     border-radius: 5px;
     background-color: var(--no1);

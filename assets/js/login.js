@@ -234,15 +234,16 @@ function bigView(notid){
     var content = snapshot.child('content').val();
     var type = snapshot.child('type').val();
     var time = snapshot.child('time').val();
+    console.log(notid,title,content,type,time);
 
     var courseEl = ``;
-    if(type === 'text'){
+    if(type === 'Text'){
       courseEl = `
         <h5>${time}</h5>
         <h3>${title}</h3> <hr>
         <p>${content}</P>
       `
-    }else if(type === 'image') {
+    }else if(type === 'Image') {
       courseEl = `
         <h5>${time}</h5>
         <h3>${title}</h3> <hr>
@@ -458,6 +459,7 @@ function showAllClassesPage(){
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
   document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('allnoticespage').style.display = 'none';
   document.getElementById('menubar-class').classList.add('selected-menubar');
   document.getElementById('menubar-res').classList.remove('selected-menubar');
   document.getElementById('menubar-cr').classList.remove('selected-menubar');
@@ -465,6 +467,7 @@ function showAllClassesPage(){
   document.getElementById('menubar-teach').classList.remove('selected-menubar');
   document.getElementById('menubar-course').classList.remove('selected-menubar');
   document.getElementById('menubar-ct').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.remove('selected-menubar');
   showAllClasses();
 }
 
@@ -476,6 +479,7 @@ function showAllCTPage(){
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
   document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('allnoticespage').style.display = 'none';
   document.getElementById('menubar-ct').classList.add('selected-menubar');
   document.getElementById('menubar-res').classList.remove('selected-menubar');
   document.getElementById('menubar-cr').classList.remove('selected-menubar');
@@ -483,6 +487,7 @@ function showAllCTPage(){
   document.getElementById('menubar-teach').classList.remove('selected-menubar');
   document.getElementById('menubar-course').classList.remove('selected-menubar');
   document.getElementById('menubar-class').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.remove('selected-menubar');
   showAllCTs();
 }
 
@@ -494,6 +499,7 @@ function showAllCoursePage(){
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
   document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('allnoticespage').style.display = 'none';
   document.getElementById('menubar-course').classList.add('selected-menubar');
   document.getElementById('menubar-res').classList.remove('selected-menubar');
   document.getElementById('menubar-cr').classList.remove('selected-menubar');
@@ -501,6 +507,7 @@ function showAllCoursePage(){
   document.getElementById('menubar-teach').classList.remove('selected-menubar');
   document.getElementById('menubar-ct').classList.remove('selected-menubar');
   document.getElementById('menubar-class').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.remove('selected-menubar');
   showAllCourses();
 }
 
@@ -512,6 +519,7 @@ function showAllTeacherPage(){
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
   document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('allnoticespage').style.display = 'none';
   document.getElementById('menubar-teach').classList.add('selected-menubar');
   document.getElementById('menubar-res').classList.remove('selected-menubar');
   document.getElementById('menubar-cr').classList.remove('selected-menubar');
@@ -519,6 +527,7 @@ function showAllTeacherPage(){
   document.getElementById('menubar-course').classList.remove('selected-menubar');
   document.getElementById('menubar-ct').classList.remove('selected-menubar');
   document.getElementById('menubar-class').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.remove('selected-menubar');
   showAllTeachers();
 }
 
@@ -530,6 +539,7 @@ function showVerifyUserPage(){
   document.getElementById('allverifieduserpage').style.display = 'block';
   document.getElementById('allresourcepage').style.display = 'none';
   document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('allnoticespage').style.display = 'none';
   document.getElementById('menubar-users').classList.add('selected-menubar');
   document.getElementById('menubar-res').classList.remove('selected-menubar');
   document.getElementById('menubar-cr').classList.remove('selected-menubar');
@@ -537,6 +547,7 @@ function showVerifyUserPage(){
   document.getElementById('menubar-course').classList.remove('selected-menubar');
   document.getElementById('menubar-ct').classList.remove('selected-menubar');
   document.getElementById('menubar-class').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.remove('selected-menubar');
   showVerifyUsers();
 }
 
@@ -548,6 +559,7 @@ function showCRshipPage(){
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'none';
   document.getElementById('crship-page').style.display = 'block';
+  document.getElementById('allnoticespage').style.display = 'none';
   document.getElementById('menubar-cr').classList.add('selected-menubar');
   document.getElementById('menubar-res').classList.remove('selected-menubar');
   document.getElementById('menubar-ct').classList.remove('selected-menubar');
@@ -555,6 +567,7 @@ function showCRshipPage(){
   document.getElementById('menubar-teach').classList.remove('selected-menubar');
   document.getElementById('menubar-course').classList.remove('selected-menubar');
   document.getElementById('menubar-class').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.remove('selected-menubar');
   showAddNewCRFormData();
 }
 
@@ -578,6 +591,7 @@ function showAllResourcesPage(){
   document.getElementById('allverifieduserpage').style.display = 'none';
   document.getElementById('allresourcepage').style.display = 'block';
   document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('allnoticespage').style.display = 'none';
   document.getElementById('menubar-res').classList.add('selected-menubar');
   document.getElementById('menubar-cr').classList.remove('selected-menubar');
   document.getElementById('menubar-users').classList.remove('selected-menubar');
@@ -585,7 +599,112 @@ function showAllResourcesPage(){
   document.getElementById('menubar-course').classList.remove('selected-menubar');
   document.getElementById('menubar-ct').classList.remove('selected-menubar');
   document.getElementById('menubar-class').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.remove('selected-menubar');
   showAllResources();
+}
+
+function showAddNoticePage(){
+  document.getElementById('allclasspage').style.display = 'none';
+  document.getElementById('allctpage').style.display = 'none';
+  document.getElementById('allcoursepage').style.display = 'none';
+  document.getElementById('allteacherpage').style.display = 'none';
+  document.getElementById('allverifieduserpage').style.display = 'none';
+  document.getElementById('allresourcepage').style.display = 'none';
+  document.getElementById('crship-page').style.display = 'none';
+  document.getElementById('allnoticespage').style.display = 'block';
+  document.getElementById('menubar-res').classList.remove('selected-menubar');
+  document.getElementById('menubar-cr').classList.remove('selected-menubar');
+  document.getElementById('menubar-users').classList.remove('selected-menubar');
+  document.getElementById('menubar-teach').classList.remove('selected-menubar');
+  document.getElementById('menubar-course').classList.remove('selected-menubar');
+  document.getElementById('menubar-ct').classList.remove('selected-menubar');
+  document.getElementById('menubar-class').classList.remove('selected-menubar');
+  document.getElementById('menubar-notices').classList.add('selected-menubar');
+  showAllNotices();
+}
+
+// ALL NOTICES
+
+function showAddNoticeForm(){
+  let x = document.getElementById('addnoticeform');
+  if(x.style.display === 'none'){
+    x.style.display = 'block';
+  }else{
+    x.style.display = 'none';
+  }
+}
+
+function showAllNotices(){
+  document.getElementById('allnotices5').innerHTML = ``;
+  database.ref('/notices').orderByKey().once("value").then((snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      var title = snapshot.child(childSnapshot.key+'/title').val();
+      var time = snapshot.child(childSnapshot.key+'/time').val();
+      var type = snapshot.child(childSnapshot.key+'/type').val();
+      var content = snapshot.child(childSnapshot.key+'/content').val();
+      if(content.length > 100){
+        content = content.substring(0,100);
+      }
+
+      var classEl = `
+        <div class="class-item">
+          <div class="class-details">
+            <div class="class-left">
+              Title: ${title} <br>
+              Type: ${type} <br>
+              Time: ${time}
+            </div>
+            <div class="class-left">
+              Content: ${content} ...
+            </div>
+            <div class="dropdown">
+              <i onclick="hideshowDropMenu('notice-${childSnapshot.key}')" class="icon fa fa-ellipsis-v" aria-hidden="true"></i>
+              <div class="drop-menu" id="notice-${childSnapshot.key}">
+                <div class="drop-menu-item" onclick="deleteNotice('${childSnapshot.key}')">Delete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+      document.getElementById('allnotices5').innerHTML += classEl;
+    })
+  })
+}
+
+function deleteNotice(id){
+  database.ref('/notices/'+id).remove();
+  registerCRactivity(database,userdata.displayName+' deleted a notice from the database','Notice ID: '+id);
+  showAllNotices();
+}
+
+function addNoticeToDatabase(){
+  var title = document.getElementById('title21').value;
+  var type = document.getElementById('type21').value;
+  var time = document.getElementById('time21').value;
+  var content = document.getElementById('content21').value;
+  var date1 = new Date(time);
+  var classid = Date.parse(time);
+  var date = date1.toLocaleString('en-BD',{hour:'numeric',minute:'numeric',hour12:true,day:'2-digit',month:"long",year:"numeric"});
+
+  database.ref('/notices/'+classid).once("value").then((snapshot) => {
+    var isAvail = snapshot.child('title').exists();
+
+    if(isAvail === true){
+      alertMessage(type="success", 'Notice time is not unique!');
+    }else{
+      database.ref('/notices/'+classid).update({
+        title: title,
+        type: type,
+        content: content,
+        time: date
+      })
+      document.getElementById('addnoticeform').style.display = 'none';
+      showAllNotices();
+      document.getElementById("noticeaddform6").reset();
+      registerCRactivity(database,userdata.displayName+' added a new notice to database','Notice ID: '+classid);
+      // sendNotification(course,);
+    }
+  })
 }
 
 // ALL CLASSES
